@@ -18,3 +18,5 @@ use Illuminate\Support\Facades\Route;
 Route::resource('/cars', CarsController::class);
 
 Route::resource('/files', FilesController::class);
+
+Route::post('/files/found', [FilesController::class, 'findFilesInDirectory']);

@@ -1,6 +1,6 @@
-<?php /** @noinspection PhpUndefinedMethodInspection */
+<?php
+/** @noinspection PhpUndefinedMethodInspection */
 /** @noinspection PhpUndefinedFieldInspection */
-
 /** @noinspection PhpUnusedLocalVariableInspection */
 
 namespace App\Http\Controllers;

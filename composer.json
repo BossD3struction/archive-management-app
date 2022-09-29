@@ -12,9 +12,11 @@
         "ext-json": "*",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "james-heinrich/getid3": "^1.9",
         "laravel/framework": "^8.75",
         "laravel/sanctum": "^2.11",
-        "laravel/tinker": "^2.5"
+        "laravel/tinker": "^2.5",
+        "stormiix/php-eyed3": "dev-master"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

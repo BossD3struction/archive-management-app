@@ -3,7 +3,7 @@
 @section('content')
     <div class="mt-3 row d-flex justify-content-center">
         <h1>Index page</h1>
-        <form class="mt-3" action="/files/found" method="POST">
+        <form class="mt-3" action="/files/found" method="POST" autocomplete="on">
             @csrf
             <div class="input-group">
                 <span class="input-group-text" id="basic-bi-search"><i class="bi bi-search"></i></span>

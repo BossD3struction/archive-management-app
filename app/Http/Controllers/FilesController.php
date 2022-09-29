@@ -1,8 +1,11 @@
 <?php
+/** @noinspection PhpUndefinedMethodInspection */
 
 namespace App\Http\Controllers;
 
+use App\Models\Mp3File;
 use Exception;
+use getID3;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
@@ -11,7 +14,6 @@ use Symfony\Component\Finder\Finder;
 
 class FilesController extends Controller
 {
-
     public function findFilesInDirectory(Request $request)
     {
         $request->validate(['directory_path' => 'required']);
@@ -20,14 +22,39 @@ class FilesController extends Controller
             $files = Finder::create()
                 ->in($directory)
                 ->ignoreUnreadableDirs()
-                ->name(['*.png', '*.jpg', '*.mp3']);
-        //} catch (DirectoryNotFoundException $exception) {
+                ->name(['*.mp3']);
+            //->name(['*.png', '*.jpg', '*.mp3']);
+            //} catch (DirectoryNotFoundException $exception) {
         } catch (Exception $exception) {
             return back()->withErrors($exception->getMessage());
         }
         return view('files.found', [
             'files' => $files
         ]);
+    }
+
+    public function uploadFoundFilesIntoDatabase(Request $request)
+    {
+        $filesPaths = $request->input('found_files');
+        foreach ($filesPaths as $filePath) {
+            //print_r($filePath);
+            $getID3 = new getID3;
+            $fileInfo = $getID3->analyze($filePath);
+            /*print_r("filenamepath" . $fileInfo['filenamepath']);
+            print_r("\n\nfilename" . $fileInfo['filename']);
+            print_r("\ntitle" . $fileInfo['tags']['id3v2']['title'][0]);
+            print_r("\nartist" . $fileInfo['tags']['id3v2']['artist'][0]);
+            print_r("\nalbum" . $fileInfo['tags']['id3v2']['album'][0]);*/
+            Mp3File::create([
+                'filename_path' => $fileInfo['filenamepath'],
+                'filename' => $fileInfo['filename'],
+                'title' => $fileInfo['tags']['id3v2']['title'][0],
+                'artist' => $fileInfo['tags']['id3v2']['artist'][0],
+                'album' => $fileInfo['tags']['id3v2']['album'][0]
+            ]);
+        }
+
+        //return redirect('/files');
     }
 
     /**

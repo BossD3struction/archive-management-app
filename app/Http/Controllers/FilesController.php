@@ -45,13 +45,17 @@ class FilesController extends Controller
             print_r("\ntitle" . $fileInfo['tags']['id3v2']['title'][0]);
             print_r("\nartist" . $fileInfo['tags']['id3v2']['artist'][0]);
             print_r("\nalbum" . $fileInfo['tags']['id3v2']['album'][0]);*/
-            Mp3File::create([
-                'filename_path' => $fileInfo['filenamepath'],
-                'filename' => $fileInfo['filename'],
-                'title' => $fileInfo['tags']['id3v2']['title'][0],
-                'artist' => $fileInfo['tags']['id3v2']['artist'][0],
-                'album' => $fileInfo['tags']['id3v2']['album'][0]
-            ]);
+            if (Mp3File::where('filename_path', $filePath)->first()) {
+                Mp3File::create([
+                    'filename_path' => $fileInfo['filenamepath'],
+                    'filename' => $fileInfo['filename'],
+                    'title' => $fileInfo['tags']['id3v2']['title'][0],
+                    'artist' => $fileInfo['tags']['id3v2']['artist'][0],
+                    'album' => $fileInfo['tags']['id3v2']['album'][0]
+                ]);
+            } else {
+                var_dump($filePath." -> is already in DB");
+            }
         }
 
         //return redirect('/files');

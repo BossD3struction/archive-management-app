@@ -19,6 +19,16 @@ Route::resource('/cars', CarsController::class);
 
 Route::resource('/files', FilesController::class);
 
-Route::post('/files/found', [FilesController::class, 'findFilesInDirectory']);
+Route::get('/', [FilesController::class, 'routeToIndexPage']);
+
+Route::get('/found/files', function () {
+    return redirect('/');
+});
+
+Route::post('/found/files', [FilesController::class, 'findFilesInDirectory']);
+
+Route::get('/upload/files', function () {
+    return redirect('/');
+});
 
 Route::post('/upload/files', [FilesController::class, 'uploadFoundFilesIntoDatabase']);

@@ -1,0 +1,21 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Icons
+@import '~bootstrap-icons/font/bootstrap-icons';
+
+h2#model a {
+    color: black;
+    text-decoration: none;
+}
+
+h2#model a:hover {
+    color: grey;
+}
+

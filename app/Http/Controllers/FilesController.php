@@ -73,7 +73,16 @@ class FilesController extends Controller
         foreach ($filesPaths as $filePath) {
             $getID3 = new getID3;
             $fileInfo = $getID3->analyze($filePath);
-            if (Mp3File::where('filename_path', $fileInfo['filenamepath'])->doesntExist()) {
+            if (Mp3File::where('filename_path', $filePath)->doesntExist()) {
+                Mp3File::create([
+                    'filename_path' => $filePath,
+                    'filename' => $fileInfo['filename'],
+                    'title' => $fileInfo['tags']['id3v2']['title'][0] ?? '',
+                    'artist' => $fileInfo['tags']['id3v2']['artist'][0] ?? '',
+                    'album' => $fileInfo['tags']['id3v2']['album'][0] ?? ''
+                ]);
+            }
+            /*if (Mp3File::where('filename_path', $fileInfo['filenamepath'])->doesntExist()) {
                 Mp3File::create([
                     'filename_path' => $fileInfo['filenamepath'],
                     'filename' => $fileInfo['filename'],
@@ -81,7 +90,7 @@ class FilesController extends Controller
                     'artist' => $fileInfo['tags']['id3v2']['artist'][0] ?? '',
                     'album' => $fileInfo['tags']['id3v2']['album'][0] ?? ''
                 ]);
-            }
+            }*/
         }
 
         return redirect('/files');

@@ -110,7 +110,7 @@ class CarsController extends Controller
             ->update([
                 'name' => $request->input('name'),
                 'founded' => $request->input('founded'),
-                'description' => $request->input('description'),
+                'description' => $request->input('description')
             ]);
         return redirect('/cars');
     }

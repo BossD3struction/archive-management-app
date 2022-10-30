@@ -6,9 +6,9 @@
         <form action="/found/files" method="POST" autocomplete="on">
             @csrf
             <div class="input-group">
-                <span class="input-group-text" id="basic-bi-search"><i class="bi bi-search"></i></span>
-                <input type="text" class="form-control" placeholder="Directory path" aria-label="Directory path"
-                       name="directory_path" id="directory_path" aria-describedby="basic-bi-search">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" class="form-control" aria-label="Directory path" placeholder="Directory path"
+                       name="directory_path" id="directory_path" autocomplete="off">
                 <button type="submit" class="btn btn-primary w-25">Search</button>
             </div>
         </form>

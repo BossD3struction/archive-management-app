@@ -13,6 +13,17 @@ const mix = require('laravel-mix');
 
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/app.scss', 'public/css')
-    .sourceMaps();
+    .sourceMaps()
+    .version();
+
+if (mix.inProduction()) {
+    mix.version();
+}
+
+mix.webpackConfig({
+    stats: {
+        children: true,
+    },
+});
 
 mix.browserSync('http://localhost:8000');

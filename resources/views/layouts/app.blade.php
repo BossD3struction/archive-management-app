@@ -5,8 +5,7 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('css/app.css')}}">
-    <script src="{{ asset('js/app.js') }}"></script>
+    <link rel="stylesheet" type="text/css" href="{{ mix('css/app.css') }}">
     <title>Archive Management</title>
 </head>
 <body class="bg-light">
@@ -27,7 +26,7 @@
                         <a class="nav-link {{ request()->path() == 'cars' ? 'active' : '' }}" href="/cars">Cars</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/">Tables</a>
+                        <a class="nav-link {{ request()->path() == 'test' ? 'active' : '' }}" href="/table/mp3">MP3 files</a>
                     </li>
                 </ul>
             </div>
@@ -36,4 +35,6 @@
     @yield('content')
 </div>
 </body>
+<script src="{{ mix('js/app.js') }}"></script>
+@stack('scripts')
 </html>

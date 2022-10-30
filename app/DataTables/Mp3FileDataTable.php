@@ -51,7 +51,7 @@ class Mp3FileDataTable extends DataTable
             ->dom('Bfrtip')
             ->addTableClass('table-striped w-100')
             ->fixedHeader()
-            ->orderBy(1);
+            ->orderBy(0, 'asc');
     }
 
     /**

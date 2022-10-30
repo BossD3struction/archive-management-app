@@ -21,6 +21,8 @@ Route::resource('/files', FilesController::class);
 
 Route::get('/', [FilesController::class, 'routeToIndexPage']);
 
+Route::get('/table/mp3', [FilesController::class, 'renderMp3FilesTable']);
+
 Route::get('/found/files', function () {
     return redirect('/');
 });

@@ -8,7 +8,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('mp3_files', function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('filename_path');
             $table->string('filename');
 

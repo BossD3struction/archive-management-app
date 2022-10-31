@@ -8,6 +8,7 @@
             <div class="input-group">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
                 <input type="text" class="form-control" aria-label="Directory path" placeholder="Directory path"
+                       value="D:\tmp_media_files_for_bachelor_project\Hudba\"
                        name="directory_path" id="directory_path" autocomplete="off">
                 <button type="submit" class="btn btn-primary w-25">Search</button>
             </div>

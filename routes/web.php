@@ -27,7 +27,7 @@ Route::get('/found/files', function () {
     return redirect('/');
 });
 
-Route::post('/found/files', [FilesController::class, 'findFilesInDirectory']);
+Route::post('/found/files', [FilesController::class, 'findMp3FilesInDirectory']);
 
 Route::get('/upload/files', function () {
     return redirect('/');

@@ -1,5 +1,6 @@
 <?php
 /** @noinspection PhpUnusedLocalVariableInspection */
+
 /** @noinspection PhpUndefinedMethodInspection */
 
 namespace App\Http\Controllers;
@@ -26,7 +27,27 @@ class FilesController extends Controller
         return $dataTable->render('files.table_mp3');
     }
 
-    public function findFilesInDirectory(Request $request)
+    // looks for .mp3 | .jpg | .png files
+    public function findAllSpecifiedFilesInDirectory(Request $request)
+    {
+        $request->validate(['directory_path' => 'required']);
+        $directory = $request->input('directory_path');
+        try {
+            $files = Finder::create()
+                ->in($directory)
+                ->ignoreUnreadableDirs()
+                ->name(['*.png', '*.jpg', '*.mp3']);
+        } catch (Exception $exception) {
+            return back()->withErrors($exception->getMessage());
+        }
+
+        $files->hasResults() ? $isEmpty = false : $isEmpty = true;
+
+        return view('files.found', ['files' => $files, 'isEmpty' => $isEmpty]);
+    }
+
+    // looks for .mp3 files
+    public function findMp3FilesInDirectory(Request $request)
     {
         $request->validate(['directory_path' => 'required']);
         $directory = $request->input('directory_path');
@@ -35,40 +56,17 @@ class FilesController extends Controller
                 ->in($directory)
                 ->ignoreUnreadableDirs()
                 ->name(['*.mp3']);
-            //->name(['*.png', '*.jpg', '*.mp3']);
         } catch (Exception $exception) {
             return back()->withErrors($exception->getMessage());
         }
-        return view('files.found', [
-            'files' => $files
-        ]);
-    }
 
-    /*public function HI()
-    {
-        return datatables()->eloquent(Mp3File::query())->toJson();
-    }*/
+        $files->hasResults() ? $isEmpty = false : $isEmpty = true;
+
+        return view('files.found', ['files' => $files, 'isEmpty' => $isEmpty]);
+    }
 
     public function uploadFoundFilesIntoDatabase(Request $request)
     {
-        // Debug code
-        /*$filesPaths = $request->input('found_files');
-        foreach ($filesPaths as $filePath) {
-            $getID3 = new getID3;
-            $fileInfo = $getID3->analyze($filePath);
-            if (Mp3File::where('filename_path', $fileInfo['filenamepath'])->doesntExist()) {
-                Mp3File::create([
-                    'filename_path' => $fileInfo['filenamepath'],
-                    'filename' => $fileInfo['filename'],
-                    'title' => $fileInfo['tags']['id3v2']['title'][0] ?? '',
-                    'artist' => $fileInfo['tags']['id3v2']['artist'][0] ?? '',
-                    'album' => $fileInfo['tags']['id3v2']['album'][0] ?? ''
-                ]);
-            } else {
-                var_dump($fileInfo['filenamepath'] . 'is already in DB');
-            }
-        }*/
-
         $filesPaths = $request->input('found_files');
         foreach ($filesPaths as $filePath) {
             $getID3 = new getID3;
@@ -82,15 +80,6 @@ class FilesController extends Controller
                     'album' => $fileInfo['tags']['id3v2']['album'][0] ?? ''
                 ]);
             }
-            /*if (Mp3File::where('filename_path', $fileInfo['filenamepath'])->doesntExist()) {
-                Mp3File::create([
-                    'filename_path' => $fileInfo['filenamepath'],
-                    'filename' => $fileInfo['filename'],
-                    'title' => $fileInfo['tags']['id3v2']['title'][0] ?? '',
-                    'artist' => $fileInfo['tags']['id3v2']['artist'][0] ?? '',
-                    'album' => $fileInfo['tags']['id3v2']['album'][0] ?? ''
-                ]);
-            }*/
         }
 
         return redirect('/files');

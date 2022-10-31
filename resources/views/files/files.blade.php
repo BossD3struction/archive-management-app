@@ -15,7 +15,7 @@
         </form>
     </div>
     @if($errors->any())
-        <div class="alert-danger text-center mt-5 p-3">
+        <div class="alert alert-danger text-center mt-5">
             @foreach($errors->all() as $error)
                 <li class="list-unstyled">
                     {{ $error }}

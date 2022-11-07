@@ -11,7 +11,7 @@ class Mp3File extends Model
 
     protected $table = 'mp3_files';
     protected $primaryKey = 'id';
-    protected $fillable = ['filename_path', 'filename', 'title', 'artist', 'album'];
+    protected $fillable = ['filename_path', 'filename', 'title', 'artist', 'album', 'genre', 'year'];
 
     public $timestamps = false;
 }

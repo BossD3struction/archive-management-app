@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "176924e9d7cac63a5b700c21d0c2686f",
+    "content-hash": "164f5356e74da93b0274339a85b86f69",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -3484,13 +3484,13 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Stormix/php-eyed3.git",
-                "reference": "3eb638907491b8a1b5d341400cb94140f2a80eaa"
+                "url": "https://github.com/BossD3struction/php-eyed3.git",
+                "reference": "62957937a9e7f7e2d05482c240e9edaa24a997f3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Stormix/php-eyed3/zipball/3eb638907491b8a1b5d341400cb94140f2a80eaa",
-                "reference": "3eb638907491b8a1b5d341400cb94140f2a80eaa",
+                "url": "https://api.github.com/repos/BossD3struction/php-eyed3/zipball/62957937a9e7f7e2d05482c240e9edaa24a997f3",
+                "reference": "62957937a9e7f7e2d05482c240e9edaa24a997f3",
                 "shasum": ""
             },
             "require": {
@@ -3507,7 +3507,6 @@
                     "Stormiix\\EyeD3\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -3519,15 +3518,14 @@
             ],
             "description": "A PHP wrapper for reading and updating ID3 meta data of (e.g.) MP3 files using eyeD3",
             "keywords": [
+                "PHP",
                 "eyeD3",
-                "php",
                 "wrapper"
             ],
             "support": {
-                "issues": "https://github.com/Stormix/php-eyed3/issues",
-                "source": "https://github.com/Stormix/php-eyed3/tree/master"
+                "source": "https://github.com/BossD3struction/php-eyed3/tree/master"
             },
-            "time": "2018-05-26T16:47:50+00:00"
+            "time": "2022-11-07T00:17:03+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

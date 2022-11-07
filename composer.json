@@ -7,6 +7,12 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/BossD3struction/php-eyed3"
+        }
+    ],
     "require": {
         "php": "^7.3|^8.0",
         "ext-json": "*",

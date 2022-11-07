@@ -8,8 +8,8 @@
         </div>
     </div>
 
-    <div class="form-group text-center mx-auto w-50">
-        <form action="/files/{{ $file->id }}" method="POST">
+    <div class="form-group text-center mx-auto w-50 mb-3">
+        <form action="/mp3/files/{{ $file->id }}" method="POST">
             @csrf
             @method('PUT')
             {{--<div class="mb-3">
@@ -62,18 +62,30 @@
             </div>--}}
             <div class="mb-3">
                 <label for="year" class="fw-bold">YEAR</label>
-                <input type="number" class="form-control form-control-lg" name="year" id="year"
-                       value="{{ substr($file->year, 0, 4) }}" autocomplete="off" placeholder="YYYY" min="1900" max="{{date("Y")}}">
+                <input type="number" class="form-control form-control-lg" name="year" id="year" placeholder="YYYY"
+                       value="{{ substr($file->year, 0, 4) }}" autocomplete="off" min="1900" max="{{date("Y")}}">
                 {{--<script>
                     document.querySelector("input[type=number]")
                         .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1));
                 </script>--}}
             </div>
-            <div>
+            @if($errors->any())
+                <div class="alert-danger text-center mb-3 p-3">
+                    @foreach($errors->all() as $error)
+                        <li class="list-unstyled">
+                            {{ $error }}
+                        </li>
+                    @endforeach
+                </div>
+            @endif
+            @if(File::exists($file->filename_path))
                 <button class="btn btn-primary btn-lg w-50" type="submit">Update</button>
-            </div>
+            @endif
+            @if(File::missing($file->filename_path))
+                <button class="btn btn-primary btn-lg w-50" type="submit" disabled>Update</button>
+            @endif
         </form>
-        <form action="/files/{{ $file->id }}" method="POST">
+        <form action="/mp3/files/{{ $file->id }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger btn-lg w-50 mt-3">

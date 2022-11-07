@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\FilesController;
+use App\Http\Controllers\Mp3FilesController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,18 +20,24 @@ Route::resource('/cars', CarsController::class);
 
 Route::resource('/files', FilesController::class);
 
-Route::get('/', [FilesController::class, 'routeToIndexPage']);
+Route::resource('/mp3/files', Mp3FilesController::class);
 
-Route::get('/table/mp3', [FilesController::class, 'renderMp3FilesTable']);
+Route::get('/mp3/table', [Mp3FilesController::class, 'renderMp3FilesTable']);
 
-Route::get('/found/files', function () {
-    return redirect('/');
-});
+//Route::get('/', [FilesController::class, 'routeToIndexPage']);
 
 Route::post('/found/files', [FilesController::class, 'findMp3FilesInDirectory']);
 
-Route::get('/upload/files', function () {
-    return redirect('/');
+Route::post('/upload/files', [FilesController::class, 'uploadFoundFilesIntoDatabase']);
+
+Route::get('/found/files', function () {
+    return redirect('/files');
 });
 
-Route::post('/upload/files', [FilesController::class, 'uploadFoundFilesIntoDatabase']);
+Route::get('/upload/files', function () {
+    return redirect('/files');
+});
+
+Route::get('/', function () {
+    return redirect('/files');
+});

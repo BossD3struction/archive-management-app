@@ -5,7 +5,7 @@
         @if($isEmpty)
             <h1>Found files page</h1>
             <div class="alert alert-danger text-center mt-1">
-                <span>No .mp3 files in given directory path found</span>
+                <span>No JPG/MP3 files in given directory path found</span>
             </div>
         @endif
         @if(!$isEmpty)

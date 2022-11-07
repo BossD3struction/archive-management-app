@@ -30,7 +30,7 @@ class Mp3FileDataTable extends DataTable
                 }
             })
             ->addColumn('action', function ($query) {
-                return '<a href="/files/' . $query->id . '/edit" class="btn btn-primary mb-2" role="button">Edit</a>';
+                return '<a href="/mp3/files/' . $query->id . '/edit" class="btn btn-primary mb-2" role="button">Edit</a>';
             })
             ->rawColumns(['available', 'action']);
     }

@@ -5,6 +5,7 @@ namespace App\DataTables;
 
 use App\Models\Mp3File;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\File;
 use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
@@ -21,9 +22,17 @@ class Mp3FileDataTable extends DataTable
     {
         return datatables()
             ->eloquent($query)
+            ->addColumn('available', function ($query) {
+                if (File::exists($query->filename_path)) {
+                    return '<h4><i class="bi bi-check-square"></i></h4>';
+                } else {
+                    return '<h4><i class="bi bi-x-square"></i></i></h4>';
+                }
+            })
             ->addColumn('action', function ($query) {
                 return '<a href="/files/' . $query->id . '/edit" class="btn btn-primary mb-2" role="button">Edit</a>';
-            });
+            })
+            ->rawColumns(['available', 'action']);
     }
 
     /**
@@ -45,13 +54,13 @@ class Mp3FileDataTable extends DataTable
     public function html(): \Yajra\DataTables\Html\Builder
     {
         return $this->builder()
-            ->setTableId('test-table')
+            ->setTableId('mp3-files-table')
             ->columns($this->getColumns())
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->addTableClass('table-striped w-100')
-            ->fixedHeader()
-            ->orderBy(0, 'asc');
+            //->fixedHeader()
+            ->orderBy(1, 'asc');
     }
 
     /**
@@ -62,17 +71,20 @@ class Mp3FileDataTable extends DataTable
     protected function getColumns(): array
     {
         return [
-            Column::make('id'),
-            Column::make('filename_path'),
+            Column::computed('available')
+                ->width(60)
+                ->addClass('text-center'),
+            //Column::make('id'),
+            //Column::make('filename_path'),
             Column::make('filename'),
             Column::make('title'),
             Column::make('artist'),
             Column::make('album'),
+            Column::make('genre'),
+            Column::make('year'),
             Column::computed('action')
-                ->exportable(false)
-                ->printable(false)
                 ->width(60)
-                ->addClass('text-center'),
+                ->addClass('text-center')
         ];
     }
 

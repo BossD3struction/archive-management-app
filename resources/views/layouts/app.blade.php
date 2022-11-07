@@ -23,7 +23,7 @@
                         <a class="nav-link {{ request()->path() == 'files' ? 'active' : '' }}" href="/files">Files</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ request()->path() == 'test' ? 'active' : '' }}" href="/table/mp3">MP3 files</a>
+                        <a class="nav-link {{ request()->path() == 'mp3/table' ? 'active' : '' }}" href="/mp3/table">MP3 table</a>
                     </li>
                 </ul>
             </div>

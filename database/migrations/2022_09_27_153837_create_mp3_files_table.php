@@ -11,10 +11,11 @@ return new class extends Migration {
             $table->bigIncrements('id');
             $table->string('filename_path');
             $table->string('filename');
-
             $table->string('title');
             $table->string('artist');
             $table->string('album');
+            $table->string('genre');
+            $table->string('year');
         });
     }
 

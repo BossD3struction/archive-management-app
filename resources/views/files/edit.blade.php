@@ -12,13 +12,13 @@
         <form action="/files/{{ $file->id }}" method="POST">
             @csrf
             @method('PUT')
-            <div class="mb-3">
+            {{--<div class="mb-3">
                 <label for="id" class="fw-bold">ID</label>
                 <input type="text" class="form-control form-control-lg" name="id" id="id"
                        value="{{ $file->id }}" autocomplete="off" readonly>
-            </div>
+            </div>--}}
             <div class="mb-3">
-                <label for="filename_path" class="fw-bold">FILENAME_PATH</label>
+                <label for="filename_path" class="fw-bold">FILENAME PATH</label>
                 <input type="text" class="form-control form-control-lg" name="filename_path" id="filename_path"
                        value="{{ $file->filename_path }}" autocomplete="off" readonly>
             </div>
@@ -41,6 +41,33 @@
                 <label for="album" class="fw-bold">ALBUM</label>
                 <input type="text" class="form-control form-control-lg" name="album" id="album"
                        value="{{ $file->album }}" autocomplete="off">
+            </div>
+            <div class="mb-3">
+                <label for="genre" class="fw-bold">GENRE</label>
+                <select class="form-select form-select-lg" name="genre" id="genre" onchange="">
+                    @foreach($genres as $genre)
+                        @if($genre === $file->genre)
+                            <option selected value="{{$genre}}">{{$genre}}</option>
+                        @endif
+                        @if($genre !== $file->genre)
+                            <option value="{{$genre}}">{{$genre}}</option>
+                        @endif
+                    @endforeach
+                </select>
+            </div>
+            {{--<div class="mb-3">
+                <label for="year" class="fw-bold">YEAR</label>
+                <input type="date" class="form-control form-control-lg" name="year" id="year"
+                       value="{{ $file->year }}-01-01" autocomplete="off">
+            </div>--}}
+            <div class="mb-3">
+                <label for="year" class="fw-bold">YEAR</label>
+                <input type="number" class="form-control form-control-lg" name="year" id="year"
+                       value="{{ substr($file->year, 0, 4) }}" autocomplete="off" placeholder="YYYY" min="1900" max="{{date("Y")}}">
+                {{--<script>
+                    document.querySelector("input[type=number]")
+                        .oninput = e => console.log(new Date(e.target.valueAsNumber, 0, 1));
+                </script>--}}
             </div>
             <div>
                 <button class="btn btn-primary btn-lg w-50" type="submit">Update</button>

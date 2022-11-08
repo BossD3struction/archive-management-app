@@ -14,9 +14,9 @@
                 <h1>Found files page</h1>
                 <div class="found-files-list">
                     <ul class="list-group">
-                        @foreach($files as $file)
-                            <li class="list-group-item text-center mt-1">{{ $file }}</li>
-                            <input type="hidden" name="found_files[]" value="{{$file}}">
+                        @foreach($foundFiles as $foundFile)
+                            <li class="list-group-item text-center mt-1">{{ $foundFile }}</li>
+                            <input type="hidden" name="found_files[]" value="{{ $foundFile }}">
                         @endforeach
                     </ul>
                 </div>

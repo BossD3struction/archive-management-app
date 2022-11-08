@@ -9,7 +9,7 @@
     </div>
 
     <div class="form-group text-center mx-auto w-50 mb-3">
-        <form action="/mp3/files/{{ $file->id }}" method="POST">
+        <form action="/files/mp3/{{ $file->id }}" method="POST">
             @csrf
             @method('PUT')
             {{--<div class="mb-3">
@@ -85,7 +85,7 @@
                 <button class="btn btn-primary btn-lg w-50" type="submit" disabled>Update</button>
             @endif
         </form>
-        <form action="/mp3/files/{{ $file->id }}" method="POST">
+        <form action="/files/mp3/{{ $file->id }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger btn-lg w-50 mt-3">

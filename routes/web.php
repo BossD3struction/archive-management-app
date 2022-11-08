@@ -20,7 +20,7 @@ Route::resource('/cars', CarsController::class);
 
 Route::resource('/files', FilesController::class);
 
-Route::resource('/mp3/files', Mp3FilesController::class);
+Route::resource('/files/mp3', Mp3FilesController::class);
 
 Route::get('/mp3/table', [Mp3FilesController::class, 'renderMp3FilesTable']);
 

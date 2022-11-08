@@ -21,8 +21,8 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
 3. in project root directory open cmd and run commands (DEVELOPMENT):
     - 'npm install'
     - 'composer install'
+    - 'php artisan migrate'
     - 'npm run dev'
-    - 'php artisan migrate'    
     - 'php artisan serve'
 4. in project root directory open cmd and run commands (PRODUCTION):
     - Apply changes to .env file:
@@ -30,10 +30,10 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
         - APP_DEBUG=false
     - 'npm install'
     - 'composer install'
+    - 'php artisan migrate'
     - 'npm run production'
-    - 'php artisan migrate' 
     - 'composer dump-autoload --optimize'
     - 'php artisan config:cache'
     - 'php artisan route:cache'
-    - 'php artisan view:cache'   
+    - 'php artisan view:cache'
     - 'php artisan serve'

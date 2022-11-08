@@ -16,17 +16,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::resource('/cars', CarsController::class);
+//Route::resource('/cars', CarsController::class);
 
-Route::resource('/files', FilesController::class);
+Route::get('/files', [FilesController::class, 'routeToFilesIndexPage']);
 
 Route::resource('/files/mp3', Mp3FilesController::class);
 
 Route::get('/mp3/table', [Mp3FilesController::class, 'renderMp3FilesTable']);
 
-//Route::get('/', [FilesController::class, 'routeToIndexPage']);
-
-Route::post('/found/files', [FilesController::class, 'findMp3FilesInDirectory']);
+Route::post('/found/files', [FilesController::class, 'findAllSpecifiedFilesInDirectory']);
 
 Route::post('/upload/files', [FilesController::class, 'uploadFoundFilesIntoDatabase']);
 

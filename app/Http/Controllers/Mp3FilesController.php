@@ -5,7 +5,7 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\Mp3FileDataTable;
+use App\DataTables\Mp3FilesDataTable;
 use App\Models\Mp3File;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
@@ -19,7 +19,7 @@ use Stormiix\EyeD3\EyeD3;
 class Mp3FilesController extends Controller
 {
 
-    public function renderMp3FilesTable(Mp3FileDataTable $dataTable)
+    public function renderMp3FilesTable(Mp3FilesDataTable $dataTable)
     {
         return $dataTable->render('tables.mp3');
     }

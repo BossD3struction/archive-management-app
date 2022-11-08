@@ -10,7 +10,7 @@ use Yajra\DataTables\DataTableAbstract;
 use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Services\DataTable;
 
-class Mp3FileDataTable extends DataTable
+class Mp3FilesDataTable extends DataTable
 {
     /**
      * Build DataTable class.

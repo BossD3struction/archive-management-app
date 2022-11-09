@@ -24,15 +24,15 @@ class Mp3FilesController extends Controller
         return $dataTable->render('tables.mp3');
     }
 
-    private function updateMp3MetaData($filenamePath, $title, $artist, $album, $genre, $year)
+    private function updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre)
     {
         $date = getDate(strtotime($year . "-01-01"));
         $meta = [
             "title" => $title,
             "artist" => $artist,
             "album" => $album,
-            "genre" => $genre,
-            "year" => $date['year']
+            "year" => $date['year'],
+            "genre" => $genre
         ];
         $eyed3 = new EyeD3($filenamePath);
         $eyed3->updateMeta($meta);
@@ -85,19 +85,19 @@ class Mp3FilesController extends Controller
         $title = $request->input('title');
         $artist = $request->input('artist');
         $album = $request->input('album');
-        $genre = $request->input('genres');
         $year = $request->input('year');
+        $genre = $request->input('genres');
 
         Mp3File::where('id', $id)
             ->update([
                 'title' => $title,
                 'artist' => $artist,
                 'album' => $album,
-                'genre' => $genre,
-                'year' => $year
+                'year' => $year,
+                'genre' => $genre
             ]);
 
-        $this->updateMp3MetaData($filenamePath, $title, $artist, $album, $genre, $year);
+        $this->updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre);
         return redirect('/mp3/table');
     }
 

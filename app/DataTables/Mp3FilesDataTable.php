@@ -80,8 +80,8 @@ class Mp3FilesDataTable extends DataTable
             Column::make('title'),
             Column::make('artist'),
             Column::make('album'),
-            Column::make('genre'),
             Column::make('year'),
+            Column::make('genre'),
             Column::computed('action')
                 ->width(60)
                 ->addClass('text-center')

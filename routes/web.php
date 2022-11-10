@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CarsController;
 use App\Http\Controllers\FilesController;
+use App\Http\Controllers\JpgFilesController;
 use App\Http\Controllers\Mp3FilesController;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,11 @@ Route::get('/files', [FilesController::class, 'routeToFilesIndexPage']);
 
 Route::resource('/files/mp3', Mp3FilesController::class);
 
+Route::resource('/files/jpg', JpgFilesController::class);
+
 Route::get('/mp3/table', [Mp3FilesController::class, 'renderMp3FilesTable']);
+
+Route::get('/jpg/table', [JpgFilesController::class, 'renderJpgFilesTable']);
 
 Route::post('/found/files', [FilesController::class, 'findAllSpecifiedFilesInDirectory']);
 

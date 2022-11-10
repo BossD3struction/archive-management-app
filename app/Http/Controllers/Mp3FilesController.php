@@ -1,7 +1,4 @@
 <?php
-/** @noinspection PhpReturnDocTypeMismatchInspection */
-/** @noinspection PhpUnusedLocalVariableInspection */
-/** @noinspection PhpUndefinedMethodInspection */
 
 namespace App\Http\Controllers;
 
@@ -12,18 +9,30 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
 use Stormiix\EyeD3\EyeD3;
 
 class Mp3FilesController extends Controller
 {
 
+    /**
+     * @param Mp3FilesDataTable $dataTable
+     * @return mixed
+     */
     public function renderMp3FilesTable(Mp3FilesDataTable $dataTable)
     {
         return $dataTable->render('tables.mp3');
     }
 
+    /**
+     * @param $filenamePath
+     * @param $title
+     * @param $artist
+     * @param $album
+     * @param $year
+     * @param $genre
+     * @return void
+     */
     private function updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre)
     {
         $date = getDate(strtotime($year . "-01-01"));
@@ -62,7 +71,7 @@ class Mp3FilesController extends Controller
             "Latin", "Neoclassical", "Revival", "Audiobook", "Celtic", "Audio Theatre", "Bluegrass", "Neue Deutsche Welle", "Avantgarde", "Podcast", "Gothic Rock", "Indie Rock", "Progressive Rock",
             "G-Funk", "Psychedelic Rock", "Dubstep", "Symphonic Rock", "Garage Rock", "Slow Rock", "Psybient");
         $file = Mp3File::find($id);
-        return view('files.edit', ['file' => $file, 'genres' => $genres]);
+        return view('files.mp3.edit', ['file' => $file, 'genres' => $genres]);
     }
 
     /**
@@ -113,45 +122,45 @@ class Mp3FilesController extends Controller
         return redirect('/mp3/table');
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Application|Factory|View
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return Application|Factory|View|Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param int $id
-     * @return Response
-     */
-    public function show(int $id)
-    {
-        //
-    }
+//    /**
+//     * Display a listing of the resource.
+//     *
+//     * @return Application|Factory|View
+//     */
+//    public function index()
+//    {
+//        //
+//    }
+//
+//    /**
+//     * Show the form for creating a new resource.
+//     *
+//     * @return Response
+//     */
+//    public function create()
+//    {
+//        //
+//    }
+//
+//    /**
+//     * Store a newly created resource in storage.
+//     *
+//     * @param Request $request
+//     * @return Application|Factory|View|Response
+//     */
+//    public function store(Request $request)
+//    {
+//        //
+//    }
+//
+//    /**
+//     * Display the specified resource.
+//     *
+//     * @param int $id
+//     * @return Response
+//     */
+//    public function show(int $id)
+//    {
+//        //
+//    }
 }

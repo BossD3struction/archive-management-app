@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CarsController;
 use App\Http\Controllers\FilesController;
 use App\Http\Controllers\JpgFilesController;
 use App\Http\Controllers\Mp3FilesController;

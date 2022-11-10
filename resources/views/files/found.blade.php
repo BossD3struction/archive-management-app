@@ -11,7 +11,10 @@
         @if(!$isEmpty)
             <form action="/upload/files" method="POST">
                 @csrf
-                <h1>Found files page</h1>
+                <div class="d-flex">
+                    <h1 class="d-flex flex-grow-1">Found files page</h1>
+                    <h1>{{ sizeof($foundFiles) }} files found</h1>
+                </div>
                 <div class="found-files-list">
                     <ul class="list-group">
                         @foreach($foundFiles as $foundFile)
@@ -21,7 +24,7 @@
                     </ul>
                 </div>
                 <div class="input-group justify-content-center">
-                    <button type="submit" class="btn btn-primary w-25 mt-3">Upload files</button>
+                    <button type="submit" class="btn btn-lg btn-primary w-25 mt-3">Upload</button>
                 </div>
             </form>
         @endif

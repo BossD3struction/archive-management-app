@@ -25,6 +25,9 @@
                     <li class="nav-item">
                         <a class="nav-link {{ request()->path() == 'mp3/table' ? 'active' : '' }}" href="/mp3/table">MP3 table</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->path() == 'jpg/table' ? 'active' : '' }}" href="/jpg/table">JPG table</a>
+                    </li>
                 </ul>
             </div>
         </div>

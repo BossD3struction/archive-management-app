@@ -12,10 +12,12 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
+use lsolesen\pel\PelException;
 use lsolesen\pel\PelIfd;
 use lsolesen\pel\PelInvalidArgumentException;
 use lsolesen\pel\PelJpeg;
 use lsolesen\pel\PelTag;
+use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\Finder\Finder;
 
 class FilesController extends Controller
@@ -33,24 +35,27 @@ class FilesController extends Controller
                 ->in($directory)
                 ->ignoreUnreadableDirs()
                 ->name(['*.jpg', '*.mp3']);
-        } catch (Exception $exception) {
-            return back()->withErrors($exception->getMessage());
+        } catch (Exception $e) {
+            return back()->withErrors($e->getMessage());
         }
         $foundFiles->hasResults() ? $isEmpty = false : $isEmpty = true;
+        sizeof($foundFiles) === 1 ? flash()->addInfo(sizeof($foundFiles) . ' file found')
+            : flash()->addInfo(sizeof($foundFiles) . ' files found');
         return view('files.found', ['foundFiles' => $foundFiles, 'isEmpty' => $isEmpty]);
     }
 
     /**
      * @param Request $request
      * @return Application|RedirectResponse|Redirector
-     * @throws PelInvalidArgumentException
      */
     public function uploadFoundFilesIntoDatabase(Request $request)
     {
         ini_set('memory_limit', '2048M');
         $foundFiles = $request->input('found_files');
+        $newUploadsCount = 0;
         foreach ($foundFiles as $filenamePath) {
             $getID3 = new getID3;
+            $pelJpeg = new PelJpeg;
             $fileExtension = pathinfo($filenamePath, PATHINFO_EXTENSION);
             if ($fileExtension === 'mp3') {
                 if (Mp3File::where('filename_path', $filenamePath)->doesntExist()) {
@@ -64,55 +69,62 @@ class FilesController extends Controller
                         'genre' => $fileMetadata['tags']['id3v2']['genre'][0] ?? '',
                         'year' => $fileMetadata['tags']['id3v2']['year'][0] ?? ''
                     ]);
+                    $newUploadsCount++;
                 }
             } elseif ($fileExtension === 'jpg') {
                 if (JpgFile::where('filename_path', $filenamePath)->doesntExist()) {
-                    $pelJpeg = new PelJpeg($filenamePath);
-                    $fileMetadata = $getID3->analyze($filenamePath);
-                    list($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata) =
-                        $this->getJpgFileMetadataValues($fileMetadata, $pelJpeg);
-                    JpgFile::create([
-                        'filename_path' => $filenamePath,
-                        'filename' => $fileMetadata['filename'],
-                        'xp_title' => $xpTitle,
-                        'xp_keywords' => $xpKeyword,
-                        'xp_comment' => $xpComment,
-                        'datetime_original' => $dateTimeOriginal,
-                        'has_exif_metadata' => $hasExifMetadata,
-                    ]);
+                    try {
+                        $pelJpeg->loadFile($filenamePath);
+                        $fileMetadata = $getID3->analyze($filenamePath);
+                        list($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata) =
+                            $this->getJpgFileMetadataValues($fileMetadata, $pelJpeg);
+                        JpgFile::create([
+                            'filename_path' => $filenamePath,
+                            'filename' => $fileMetadata['filename'],
+                            'xp_title' => $xpTitle,
+                            'xp_keywords' => $xpKeyword,
+                            'xp_comment' => $xpComment,
+                            'datetime_original' => $dateTimeOriginal,
+                            'has_exif_metadata' => $hasExifMetadata,
+                        ]);
+                        $newUploadsCount++;
+                    } catch (PelInvalidArgumentException|PelException $e) {
+                        return back()->withErrors($e->getMessage());
+                    }
                 }
             }
         }
+        $databaseFileCount = sizeof($foundFiles) - $newUploadsCount;
+        $databaseFileCount === 1 ? $request->session()->flash('info', $databaseFileCount . ' file already in database')
+            : $request->session()->flash('info', $databaseFileCount . ' files already in database');
+        $newUploadsCount === 1 ? $request->session()->flash('success', $newUploadsCount . ' new file uploaded into database')
+            : $request->session()->flash('success', $newUploadsCount . ' new files uploaded into database');
         return redirect('/files');
     }
 
     /**
      * @param $fileMetadata
      * @param $pelJpeg
-     * @return array|RedirectResponse
+     * @return array
      */
     public function getJpgFileMetadataValues($fileMetadata, $pelJpeg)
     {
-        try {
-            $exif = $pelJpeg->getExif();
-            $hasExifMetadata = 'no';
-            $xpTitle = '';
-            $xpKeyword = '';
-            $xpComment = '';
-            $dateTimeOriginal = '';
-            if (!is_null($exif)) {
-                $ifd0 = $exif->getTiff()->getIfd();
-                $hasExifMetadata = 'yes';
-                $xpTitle = $this->getXpTitleValue($ifd0);
-                $xpKeyword = $this->getXpKeywordValue($ifd0);
-                $xpComment = $this->getXpCommentValue($ifd0);
-                if (array_key_exists("EXIF", $fileMetadata['jpg']['exif'])) {
-                    $date = date("d/m/Y", strtotime($fileMetadata['jpg']['exif']['EXIF']['DateTimeOriginal']));
-                    $dateTimeOriginal = $date;
-                }
+        $exif = $pelJpeg->getExif();
+        $hasExifMetadata = 'no';
+        $xpTitle = '';
+        $xpKeyword = '';
+        $xpComment = '';
+        $dateTimeOriginal = '';
+        if (!is_null($exif)) {
+            $ifd0 = $exif->getTiff()->getIfd();
+            $hasExifMetadata = 'yes';
+            $xpTitle = $this->getXpTitleValue($ifd0);
+            $xpKeyword = $this->getXpKeywordValue($ifd0);
+            $xpComment = $this->getXpCommentValue($ifd0);
+            if (array_key_exists("EXIF", $fileMetadata['jpg']['exif'])) {
+                $date = date("d/m/Y", strtotime($fileMetadata['jpg']['exif']['EXIF']['DateTimeOriginal']));
+                $dateTimeOriginal = $date;
             }
-        } catch (PelInvalidArgumentException $exception) {
-            return back()->withErrors($exception->getMessage());
         }
         return array($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata);
     }

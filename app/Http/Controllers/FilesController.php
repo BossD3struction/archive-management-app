@@ -17,7 +17,6 @@ use lsolesen\pel\PelIfd;
 use lsolesen\pel\PelInvalidArgumentException;
 use lsolesen\pel\PelJpeg;
 use lsolesen\pel\PelTag;
-use Symfony\Component\ErrorHandler\Error\FatalError;
 use Symfony\Component\Finder\Finder;
 
 class FilesController extends Controller

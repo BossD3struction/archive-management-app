@@ -7,16 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static create(array $array)
- * @method static where(string $string, int $id)
+ * @method static where(string $string, mixed $filenamePath)
  * @method static find(int $id)
  */
-class Mp3File extends Model
+class JpgFile extends Model
 {
     use HasFactory;
 
-    protected $table = 'mp3_files';
+    protected $table = 'jpg_files';
     protected $primaryKey = 'id';
-    protected $fillable = ['filename_path', 'filename', 'title', 'artist', 'album', 'year', 'genre'];
+    protected $fillable = ['filename_path', 'filename', 'xp_title', 'xp_keywords', 'xp_comment', 'datetime_original', 'has_exif_metadata'];
 
     public $timestamps = false;
 }

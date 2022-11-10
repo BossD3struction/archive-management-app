@@ -1,5 +1,4 @@
 <?php
-/** @noinspection PhpUnused */
 
 namespace App\DataTables;
 
@@ -59,7 +58,6 @@ class Mp3FilesDataTable extends DataTable
             ->minifiedAjax()
             ->dom('Bfrtip')
             ->addTableClass('table-striped w-100')
-            //->fixedHeader()
             ->orderBy(1, 'asc');
     }
 
@@ -74,8 +72,6 @@ class Mp3FilesDataTable extends DataTable
             Column::computed('available')
                 ->width(60)
                 ->addClass('text-center'),
-            //Column::make('id'),
-            //Column::make('filename_path'),
             Column::make('filename'),
             Column::make('title'),
             Column::make('artist'),

@@ -13,7 +13,6 @@
                 @csrf
                 <div class="d-flex">
                     <h1 class="d-flex flex-grow-1">Found files page</h1>
-                    <h1>{{ sizeof($foundFiles) }} files found</h1>
                 </div>
                 <div class="found-files-list">
                     <ul class="list-group">

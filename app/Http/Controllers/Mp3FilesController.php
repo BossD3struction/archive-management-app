@@ -107,6 +107,7 @@ class Mp3FilesController extends Controller
             ]);
 
         $this->updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre);
+        flash()->addSuccess('updated successfully!');
         return redirect('/mp3/table');
     }
 
@@ -119,48 +120,7 @@ class Mp3FilesController extends Controller
     public function destroy(int $id)
     {
         Mp3File::find($id)->delete();
+        flash()->addSuccess('deleted successfully!');
         return redirect('/mp3/table');
     }
-
-//    /**
-//     * Display a listing of the resource.
-//     *
-//     * @return Application|Factory|View
-//     */
-//    public function index()
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Show the form for creating a new resource.
-//     *
-//     * @return Response
-//     */
-//    public function create()
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Store a newly created resource in storage.
-//     *
-//     * @param Request $request
-//     * @return Application|Factory|View|Response
-//     */
-//    public function store(Request $request)
-//    {
-//        //
-//    }
-//
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param int $id
-//     * @return Response
-//     */
-//    public function show(int $id)
-//    {
-//        //
-//    }
 }

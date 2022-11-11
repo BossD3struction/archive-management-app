@@ -8,7 +8,6 @@
     </div>
 
     <div class="form-group text-center mx-auto w-50 mb-3">
-        POG
         <form action="/files/jpg/{{ $file->id }}" method="POST">
             @csrf
             @method('PUT')
@@ -40,7 +39,7 @@
             <div class="mb-3">
                 <label for="date" class="fw-bold">DATE</label>
                 <input type="date" class="form-control form-control-lg" name="date" id="date"
-                       value="{{ $file->date }}" autocomplete="off">
+                       value="{{ $date }}" autocomplete="off">
             </div>
             @if($errors->any())
                 <div class="alert-danger text-center mb-3 p-3">

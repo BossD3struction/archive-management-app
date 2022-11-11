@@ -33,7 +33,9 @@ class JpgFilesController extends Controller
     public function edit(int $id)
     {
         $file = JpgFile::find($id);
-        return view('files.jpg.edit', ['file' => $file]);
+        $date = str_replace('/', '-', $file->date);
+        $date = date('Y-m-d', strtotime($date));
+        return view('files.jpg.edit', ['file' => $file, 'date' => $date]);
     }
 
     /**
@@ -45,12 +47,21 @@ class JpgFilesController extends Controller
      */
     public function update(Request $request, int $id)
     {
+        $title = $request->input('title');
+        $tags = $request->input('tags');
+        $comments = $request->input('comments');
         $date = $request->input('date');
-        $ree = date("d/m/Y", strtotime($date));
-        $date = $request->input('date');
+
+        var_dump($title);
+        echo '</br>';
+        var_dump($tags);
+        echo '</br>';
+        var_dump($comments);
+        echo '</br>';
         var_dump($date);
         echo '</br>';
-        var_dump($ree);
+        $ree = date("d/m/Y", strtotime($date));
+        var_dump('date converted ' . $ree);
     }
 
     /**

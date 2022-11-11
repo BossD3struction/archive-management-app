@@ -7,8 +7,10 @@ use App\Models\JpgFile;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 
 class JpgFilesController extends Controller
 {
@@ -41,19 +43,26 @@ class JpgFilesController extends Controller
      * @param int $id
      * @return Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id)
     {
-        //
+        $date = $request->input('date');
+        $ree = date("d/m/Y", strtotime($date));
+        $date = $request->input('date');
+        var_dump($date);
+        echo '</br>';
+        var_dump($ree);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return Response
+     * @return Application|RedirectResponse|Redirector
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
-        //
+        JpgFile::find($id)->delete();
+        flash()->addSuccess('file record deleted successfully');
+        return redirect('/jpg/table');
     }
 }

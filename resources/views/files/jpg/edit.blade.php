@@ -9,7 +9,7 @@
 
     <div class="form-group text-center mx-auto w-50 mb-3">
         POG
-        {{--<form action="/files/mp3/{{ $file->id }}" method="POST">
+        <form action="/files/jpg/{{ $file->id }}" method="POST">
             @csrf
             @method('PUT')
             <div class="mb-3">
@@ -28,32 +28,19 @@
                        value="{{ $file->title }}" autocomplete="off">
             </div>
             <div class="mb-3">
-                <label for="artist" class="fw-bold">ARTIST</label>
-                <input type="text" class="form-control form-control-lg" name="artist" id="artist"
-                       value="{{ $file->artist }}" autocomplete="off">
+                <label for="tags" class="fw-bold">TAGS</label>
+                <input type="text" class="form-control form-control-lg" name="tags" id="tags"
+                       value="{{ $file->tags }}" autocomplete="off">
             </div>
             <div class="mb-3">
-                <label for="album" class="fw-bold">ALBUM</label>
-                <input type="text" class="form-control form-control-lg" name="album" id="album"
-                       value="{{ $file->album }}" autocomplete="off">
+                <label for="comments" class="fw-bold">COMMENTS</label>
+                <input type="text" class="form-control form-control-lg" name="comments" id="comments"
+                       value="{{ $file->comments }}" autocomplete="off">
             </div>
             <div class="mb-3">
-                <label for="year" class="fw-bold">YEAR</label>
-                <input type="number" class="form-control form-control-lg" name="year" id="year" placeholder="YYYY"
-                       value="{{ substr($file->year, 0, 4) }}" autocomplete="off" min="1900" max="{{ date("Y") }}">
-            </div>
-            <div class="mb-3">
-                <label for="genres" class="fw-bold">GENRE</label>
-                <select class="form-select form-select-lg" name="genres" id="genres">
-                    @foreach($genres as $genre)
-                        @if($genre === $file->genre)
-                            <option selected value="{{ $genre }}">{{ $genre }}</option>
-                        @endif
-                        @if($genre !== $file->genre)
-                            <option value="{{ $genre }}">{{ $genre }}</option>
-                        @endif
-                    @endforeach
-                </select>
+                <label for="date" class="fw-bold">DATE</label>
+                <input type="date" class="form-control form-control-lg" name="date" id="date"
+                       value="{{ $file->date }}" autocomplete="off">
             </div>
             @if($errors->any())
                 <div class="alert-danger text-center mb-3 p-3">
@@ -71,12 +58,12 @@
                 <button class="btn btn-primary btn-lg w-50" type="submit" disabled>Update</button>
             @endif
         </form>
-        <form action="/files/mp3/{{ $file->id }}" method="POST">
+        <form action="/files/jpg/{{ $file->id }}" method="POST">
             @csrf
             @method('DELETE')
             <button type="submit" class="btn btn-danger btn-lg w-50 mt-3">
                 Delete
             </button>
-        </form>--}}
+        </form>
     </div>
 @endsection

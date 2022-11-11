@@ -17,11 +17,11 @@ class CreateJpgFilesTable extends Migration
             $table->bigIncrements('id');
             $table->string('filename_path');
             $table->string('filename');
-            $table->string('xp_title');
-            $table->string('xp_keywords');
-            $table->string('xp_comment');
-            $table->string('datetime_original');
-            $table->string('has_exif_metadata');
+            $table->string('title');
+            $table->string('tags');
+            $table->string('comments');
+            $table->string('date');
+            $table->boolean('has_exif_metadata');
         });
     }
 

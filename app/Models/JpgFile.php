@@ -17,7 +17,7 @@ class JpgFile extends Model
 
     protected $table = 'jpg_files';
     protected $primaryKey = 'id';
-    protected $fillable = ['filename_path', 'filename', 'xp_title', 'xp_keywords', 'xp_comment', 'datetime_original', 'has_exif_metadata'];
+    protected $fillable = ['filename_path', 'filename', 'title', 'tags', 'comments', 'date', 'has_exif_metadata'];
 
     public $timestamps = false;
 }

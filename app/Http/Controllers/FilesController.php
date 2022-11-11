@@ -82,10 +82,10 @@ class FilesController extends Controller
                         JpgFile::create([
                             'filename_path' => $filenamePath,
                             'filename' => $fileMetadata['filename'],
-                            'xp_title' => $xpTitle,
-                            'xp_keywords' => $xpKeyword,
-                            'xp_comment' => $xpComment,
-                            'datetime_original' => $dateTimeOriginal,
+                            'title' => $xpTitle,
+                            'tags' => $xpKeyword,
+                            'comments' => $xpComment,
+                            'date' => $dateTimeOriginal,
                             'has_exif_metadata' => $hasExifMetadata,
                         ]);
                         $newUploadsCount++;
@@ -110,14 +110,14 @@ class FilesController extends Controller
     public function getJpgFileMetadataValues($fileMetadata, $pelJpeg)
     {
         $exif = $pelJpeg->getExif();
-        $hasExifMetadata = 'no';
+        $hasExifMetadata = false;
         $xpTitle = '';
         $xpKeyword = '';
         $xpComment = '';
         $dateTimeOriginal = '';
         if (!is_null($exif)) {
             $ifd0 = $exif->getTiff()->getIfd();
-            $hasExifMetadata = 'yes';
+            $hasExifMetadata = true;
             $xpTitle = $this->getXpTitleValue($ifd0);
             $xpKeyword = $this->getXpKeywordValue($ifd0);
             $xpComment = $this->getXpCommentValue($ifd0);

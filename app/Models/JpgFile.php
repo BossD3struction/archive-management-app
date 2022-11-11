@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static create(array $array)
  * @method static where(string $string, mixed $filenamePath)
  * @method static find(int $id)
+ * @method static count()
  */
 class JpgFile extends Model
 {

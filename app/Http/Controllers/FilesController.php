@@ -51,6 +51,8 @@ class FilesController extends Controller
     {
         ini_set('memory_limit', '2048M');
         $foundFiles = $request->input('found_files');
+        $recordsCount = Mp3File::count();
+        $recordsCount += JpgFile::count();
         $newUploadsCount = 0;
         foreach ($foundFiles as $filenamePath) {
             $getID3 = new getID3;
@@ -93,11 +95,10 @@ class FilesController extends Controller
                 }
             }
         }
-        $databaseFileCount = sizeof($foundFiles) - $newUploadsCount;
-        $databaseFileCount === 1 ? $request->session()->flash('info', $databaseFileCount . ' file already in database')
-            : $request->session()->flash('info', $databaseFileCount . ' files already in database');
-        $newUploadsCount === 1 ? $request->session()->flash('success', $newUploadsCount . ' new file uploaded into database')
-            : $request->session()->flash('success', $newUploadsCount . ' new files uploaded into database');
+        $recordsCount === 1 ? $request->session()->flash('info', $recordsCount . ' file in database')
+            : $request->session()->flash('info', $recordsCount . ' files in database');
+        $newUploadsCount === 1 ? $request->session()->flash('success', $newUploadsCount . ' file uploaded into database')
+            : $request->session()->flash('success', $newUploadsCount . ' files uploaded into database');
         return redirect('/files');
     }
 

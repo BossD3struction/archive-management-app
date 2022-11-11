@@ -107,7 +107,7 @@ class Mp3FilesController extends Controller
             ]);
 
         $this->updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre);
-        flash()->addSuccess('updated successfully!');
+        flash()->addSuccess('file metadata updated successfully');
         return redirect('/mp3/table');
     }
 
@@ -120,7 +120,7 @@ class Mp3FilesController extends Controller
     public function destroy(int $id)
     {
         Mp3File::find($id)->delete();
-        flash()->addSuccess('deleted successfully!');
+        flash()->addSuccess('file record deleted successfully');
         return redirect('/mp3/table');
     }
 }

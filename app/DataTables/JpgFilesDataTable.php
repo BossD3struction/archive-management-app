@@ -77,7 +77,6 @@ class JpgFilesDataTable extends DataTable
             Column::make('tags'),
             Column::make('comments'),
             Column::make('date'),
-            Column::make('has_exif_metadata'),
             Column::computed('action')
                 ->width(60)
                 ->addClass('text-center')

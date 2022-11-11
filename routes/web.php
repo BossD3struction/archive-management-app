@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Route::resource('/cars', CarsController::class);
-
 Route::get('/files', [FilesController::class, 'routeToFilesIndexPage']);
 
 Route::resource('/files/mp3', Mp3FilesController::class);

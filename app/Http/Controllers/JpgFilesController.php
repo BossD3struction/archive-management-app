@@ -9,8 +9,14 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Routing\Redirector;
+use lsolesen\pel\PelEntryWindowsString;
+use lsolesen\pel\PelException;
+use lsolesen\pel\PelIfd;
+use lsolesen\pel\PelInvalidArgumentException;
+use lsolesen\pel\PelInvalidDataException;
+use lsolesen\pel\PelJpeg;
+use lsolesen\pel\PelTag;
 
 class JpgFilesController extends Controller
 {
@@ -25,6 +31,30 @@ class JpgFilesController extends Controller
     }
 
     /**
+     * @param $filenamePath
+     * @param $title
+     * @param $tags
+     * @param $comments
+     * @return void
+     * @throws PelException
+     * @throws PelInvalidArgumentException
+     * @throws PelInvalidDataException
+     */
+    private function updateJpgMetadata($filenamePath, $title, $tags, $comments)
+    {
+        $jpeg = new PelJpeg($filenamePath);
+        $exif = $jpeg->getExif();
+
+        if (!is_null($exif)) {
+            $ifd0 = $exif->getTiff()->getIfd();
+            $this->setXpTitleValue($ifd0, $title);
+            $this->setXpKeywordsValue($ifd0, $tags);
+            $this->setXpCommentValue($ifd0, $comments);
+            $jpeg->saveFile($filenamePath);
+        }
+    }
+
+    /**
      * Show the form for editing the specified resource.
      *
      * @param int $id
@@ -33,9 +63,7 @@ class JpgFilesController extends Controller
     public function edit(int $id)
     {
         $file = JpgFile::find($id);
-        $date = str_replace('/', '-', $file->date);
-        $date = date('Y-m-d', strtotime($date));
-        return view('files.jpg.edit', ['file' => $file, 'date' => $date]);
+        return view('files.jpg.edit', ['file' => $file]);
     }
 
     /**
@@ -43,25 +71,28 @@ class JpgFilesController extends Controller
      *
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return Application|Redirector|RedirectResponse
+     * @throws PelException
+     * @throws PelInvalidArgumentException
+     * @throws PelInvalidDataException
      */
     public function update(Request $request, int $id)
     {
+        $filenamePath = $request->input('filename_path');
         $title = $request->input('title');
         $tags = $request->input('tags');
         $comments = $request->input('comments');
-        $date = $request->input('date');
 
-        var_dump($title);
-        echo '</br>';
-        var_dump($tags);
-        echo '</br>';
-        var_dump($comments);
-        echo '</br>';
-        var_dump($date);
-        echo '</br>';
-        $ree = date("d/m/Y", strtotime($date));
-        var_dump('date converted ' . $ree);
+        JpgFile::where('id', $id)
+            ->update([
+                'title' => $title ?? '',
+                'tags' => $tags ?? '',
+                'comments' => $comments ?? ''
+            ]);
+
+        $this->updateJpgMetadata($filenamePath, $title, $tags, $comments);
+        flash()->addSuccess('file metadata updated successfully');
+        return redirect('/jpg/table');
     }
 
     /**
@@ -75,5 +106,56 @@ class JpgFilesController extends Controller
         JpgFile::find($id)->delete();
         flash()->addSuccess('file record deleted successfully');
         return redirect('/jpg/table');
+    }
+
+    /**
+     * @param PelIfd|null $ifd0
+     * @param $xp_title
+     * @return void
+     * @throws PelException
+     * @throws PelInvalidDataException
+     */
+    function setXpTitleValue(?PelIfd $ifd0, $xp_title): void
+    {
+        $entry = $ifd0->getEntry(PelTag::XP_TITLE);
+        if (!is_null($entry)) {
+            $entry->setValue($xp_title);
+        } else {
+            $ifd0->addEntry(new PelEntryWindowsString(PelTag::XP_TITLE, $xp_title));
+        }
+    }
+
+    /**
+     * @param PelIfd|null $ifd0
+     * @param $xp_keywords
+     * @return void
+     * @throws PelException
+     * @throws PelInvalidDataException
+     */
+    function setXpKeywordsValue(?PelIfd $ifd0, $xp_keywords): void
+    {
+        $entry = $ifd0->getEntry(PelTag::XP_KEYWORDS);
+        if (!is_null($entry)) {
+            $entry->setValue($xp_keywords);
+        } else {
+            $ifd0->addEntry(new PelEntryWindowsString(PelTag::XP_KEYWORDS, $xp_keywords));
+        }
+    }
+
+    /**
+     * @param PelIfd|null $ifd0
+     * @param $xp_comment
+     * @return void
+     * @throws PelException
+     * @throws PelInvalidDataException
+     */
+    function setXpCommentValue(?PelIfd $ifd0, $xp_comment): void
+    {
+        $entry = $ifd0->getEntry(PelTag::XP_COMMENT);
+        if (!is_null($entry)) {
+            $entry->setValue($xp_comment);
+        } else {
+            $ifd0->addEntry(new PelEntryWindowsString(PelTag::XP_COMMENT, $xp_comment));
+        }
     }
 }

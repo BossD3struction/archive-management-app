@@ -13,14 +13,14 @@
                 <button type="submit" class="btn btn-primary w-25">Search</button>
             </div>
         </form>
+        @if($errors->any())
+            <div class="alert alert-danger text-center mt-5">
+                @foreach($errors->all() as $error)
+                    <li class="list-unstyled">
+                        {{ $error }}
+                    </li>
+                @endforeach
+            </div>
+        @endif
     </div>
-    @if($errors->any())
-        <div class="alert alert-danger text-center mt-5">
-            @foreach($errors->all() as $error)
-                <li class="list-unstyled">
-                    {{ $error }}
-                </li>
-            @endforeach
-        </div>
-    @endif
 @endsection

@@ -11,9 +11,7 @@
         @if(!$isEmpty)
             <form action="/upload/files" method="POST">
                 @csrf
-                <div class="d-flex">
-                    <h1 class="d-flex flex-grow-1">Found files page</h1>
-                </div>
+                <h1>Found files page</h1>
                 <div class="found-files-list">
                     <ul class="list-group">
                         @foreach($foundFiles as $foundFile)

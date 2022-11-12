@@ -37,9 +37,9 @@
                        value="{{ $file->comments }}" autocomplete="off">
             </div>
             <div class="mb-3">
-                <label for="date" class="fw-bold">DATE</label>
-                <input type="date" class="form-control form-control-lg" name="date" id="date"
-                       value="{{ $date }}" autocomplete="off">
+                <label for="date" class="fw-bold">DATE TAKEN</label>
+                <input type="text" class="form-control form-control-lg" name="date" id="date"
+                       value="{{ $file->date }}" autocomplete="off" readonly>
             </div>
             @if($errors->any())
                 <div class="alert-danger text-center mb-3 p-3">
@@ -50,10 +50,10 @@
                     @endforeach
                 </div>
             @endif
-            @if(File::exists($file->filename_path))
+            @if(File::exists($file->filename_path) && $file->has_exif_metadata)
                 <button class="btn btn-primary btn-lg w-50" type="submit">Update</button>
             @endif
-            @if(File::missing($file->filename_path))
+            @if(File::missing($file->filename_path) || !$file->has_exif_metadata)
                 <button class="btn btn-primary btn-lg w-50" type="submit" disabled>Update</button>
             @endif
         </form>

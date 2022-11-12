@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Redirector;
 use lsolesen\pel\PelException;
 use lsolesen\pel\PelIfd;
-use lsolesen\pel\PelInvalidArgumentException;
 use lsolesen\pel\PelJpeg;
 use lsolesen\pel\PelTag;
 use Symfony\Component\Finder\Finder;
@@ -27,10 +26,11 @@ class FilesController extends Controller
      */
     public function findAllSpecifiedFilesInDirectory(Request $request)
     {
-        ini_set('max_execution_time', 30);
+        ini_set('max_execution_time', 60);
         ini_set('memory_limit', '4096M');
         $request->validate(['directory' => 'required']);
         $directory = $request->input('directory');
+
         try {
             $foundFiles = Finder::create()
                 ->in($directory)
@@ -39,15 +39,17 @@ class FilesController extends Controller
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());
         }
+
         $foundFiles->hasResults() ? $isEmpty = false : $isEmpty = true;
-        sizeof($foundFiles) === 1 ? flash()->addInfo(sizeof($foundFiles) . ' file found')
-            : flash()->addInfo(sizeof($foundFiles) . ' files found');
+        if (sizeof($foundFiles) === 1) flash()->addInfo(sizeof($foundFiles) . ' file found');
+        if (sizeof($foundFiles) > 1) flash()->addInfo(sizeof($foundFiles) . ' files found');
         return view('files.found', ['foundFiles' => $foundFiles, 'isEmpty' => $isEmpty]);
     }
 
     /**
      * @param Request $request
      * @return Application|RedirectResponse|Redirector
+     * @throws PelException
      */
     public function uploadFoundFilesIntoDatabase(Request $request)
     {
@@ -57,6 +59,7 @@ class FilesController extends Controller
         $recordsCount = Mp3File::count();
         $recordsCount += JpgFile::count();
         $newUploadsCount = 0;
+
         foreach ($foundFiles as $filenamePath) {
             $getID3 = new getID3;
             $pelJpeg = new PelJpeg;
@@ -77,31 +80,31 @@ class FilesController extends Controller
                 }
             } elseif ($fileExtension === 'jpg') {
                 if (JpgFile::where('filename_path', $filenamePath)->doesntExist()) {
-                    try {
-                        $pelJpeg->loadFile($filenamePath);
-                        $fileMetadata = $getID3->analyze($filenamePath);
-                        list($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata) =
-                            $this->getJpgFileMetadataValues($fileMetadata, $pelJpeg);
-                        JpgFile::create([
-                            'filename_path' => $filenamePath,
-                            'filename' => $fileMetadata['filename'],
-                            'title' => $xpTitle,
-                            'tags' => $xpKeyword,
-                            'comments' => $xpComment,
-                            'date' => $dateTimeOriginal,
-                            'has_exif_metadata' => $hasExifMetadata,
-                        ]);
-                        $newUploadsCount++;
-                    } catch (PelInvalidArgumentException|PelException $e) {
-                        return back()->withErrors($e->getMessage());
-                    }
+                    $pelJpeg->loadFile($filenamePath);
+                    $fileMetadata = $getID3->analyze($filenamePath);
+                    list($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata) =
+                        $this->getJpgFileMetadataValues($fileMetadata, $pelJpeg);
+                    JpgFile::create([
+                        'filename_path' => $filenamePath,
+                        'filename' => $fileMetadata['filename'],
+                        'title' => $xpTitle,
+                        'tags' => $xpKeyword,
+                        'comments' => $xpComment,
+                        'date' => $dateTimeOriginal,
+                        'has_exif_metadata' => $hasExifMetadata,
+                    ]);
+                    $newUploadsCount++;
                 }
             }
         }
-        $recordsCount === 1 ? $request->session()->flash('info', $recordsCount . ' file in database')
-            : $request->session()->flash('info', $recordsCount . ' files in database');
-        $newUploadsCount === 1 ? $request->session()->flash('success', $newUploadsCount . ' file uploaded into database')
-            : $request->session()->flash('success', $newUploadsCount . ' files uploaded into database');
+
+        $recordsCount === 1 ?
+            $request->session()->flash('info', $recordsCount . ' file in database') :
+            $request->session()->flash('info', $recordsCount . ' files in database');
+        $newUploadsCount === 1 ?
+            $request->session()->flash('success', $newUploadsCount . ' file uploaded into database') :
+            $request->session()->flash('success', $newUploadsCount . ' files uploaded into database');
+
         return redirect('/files');
     }
 
@@ -110,7 +113,7 @@ class FilesController extends Controller
      * @param $pelJpeg
      * @return array
      */
-    public function getJpgFileMetadataValues($fileMetadata, $pelJpeg)
+    private function getJpgFileMetadataValues($fileMetadata, $pelJpeg)
     {
         $exif = $pelJpeg->getExif();
         $hasExifMetadata = false;
@@ -118,6 +121,7 @@ class FilesController extends Controller
         $xpKeyword = '';
         $xpComment = '';
         $dateTimeOriginal = '';
+
         if (!is_null($exif)) {
             $ifd0 = $exif->getTiff()->getIfd();
             $hasExifMetadata = true;
@@ -129,6 +133,7 @@ class FilesController extends Controller
                 $dateTimeOriginal = $date;
             }
         }
+
         return array($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata);
     }
 

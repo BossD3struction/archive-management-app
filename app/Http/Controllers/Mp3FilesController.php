@@ -35,12 +35,11 @@ class Mp3FilesController extends Controller
      */
     private function updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre)
     {
-        $date = getDate(strtotime($year . "-01-01"));
         $meta = [
-            "title" => $title,
-            "artist" => $artist,
-            "album" => $album,
-            "year" => $date['year'],
+            "title" => $title ?? '',
+            "artist" => $artist ?? '',
+            "album" => $album ?? '',
+            "year" => $year,
             "genre" => $genre
         ];
         $eyed3 = new EyeD3($filenamePath);
@@ -84,9 +83,6 @@ class Mp3FilesController extends Controller
     public function update(Request $request, int $id)
     {
         $request->validate([
-            'title' => 'required',
-            'artist' => 'required',
-            'album' => 'required',
             'year' => 'required|regex:/^[1-9][0-9]*$/|integer|between:1900,' . date("Y")
         ]);
 
@@ -99,9 +95,9 @@ class Mp3FilesController extends Controller
 
         Mp3File::where('id', $id)
             ->update([
-                'title' => $title,
-                'artist' => $artist,
-                'album' => $album,
+                'title' => $title ?? '',
+                'artist' => $artist ?? '',
+                'album' => $album ?? '',
                 'year' => $year,
                 'genre' => $genre
             ]);

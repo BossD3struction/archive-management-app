@@ -3713,12 +3713,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/BossD3struction/php-eyed3.git",
-                "reference": "62957937a9e7f7e2d05482c240e9edaa24a997f3"
+                "reference": "83b390b8bb5352d4e7214d115c2fa051ef9ff29a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/BossD3struction/php-eyed3/zipball/62957937a9e7f7e2d05482c240e9edaa24a997f3",
-                "reference": "62957937a9e7f7e2d05482c240e9edaa24a997f3",
+                "url": "https://api.github.com/repos/BossD3struction/php-eyed3/zipball/83b390b8bb5352d4e7214d115c2fa051ef9ff29a",
+                "reference": "83b390b8bb5352d4e7214d115c2fa051ef9ff29a",
                 "shasum": ""
             },
             "require": {
@@ -3753,7 +3753,7 @@
             "support": {
                 "source": "https://github.com/BossD3struction/php-eyed3/tree/master"
             },
-            "time": "2022-11-07T00:17:03+00:00"
+            "time": "2022-11-12T21:22:35+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",

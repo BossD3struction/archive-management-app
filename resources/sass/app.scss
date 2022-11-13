@@ -14,13 +14,8 @@
 @import '~datatables.net-bs5/css/dataTables.bootstrap5.css';
 @import '~datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.css';
 
-h2#model a {
-    color: black;
-    text-decoration: none;
-}
-
-h2#model a:hover {
-    color: grey;
+div.custom-min-height {
+    min-height: 40vh;
 }
 
 div.found-files-list {

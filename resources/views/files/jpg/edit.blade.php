@@ -29,7 +29,8 @@
             <div class="mb-3">
                 <label for="tags" class="fw-bold">TAGS</label>
                 <input type="text" class="form-control form-control-lg" name="tags" id="tags"
-                       value="{{ $file->tags }}" autocomplete="off">
+                       value="{{ $file->tags }}" placeholder="tag;tag;tag;" autocomplete="off" pattern="^([a-zA-Z0-9]+[;])*$">
+                <div class="form-text">Pattern: tag;tag;tag;</div>
             </div>
             <div class="mb-3">
                 <label for="comments" class="fw-bold">COMMENTS</label>

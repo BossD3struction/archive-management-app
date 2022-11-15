@@ -10,7 +10,7 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
 - Recommended to use [XAMPP 7.4.25](https://sourceforge.net/projects/xampp/files/XAMPP%20Windows/7.4.25/)
     - PHP >= 7.4.25
     - MariaDB >= 10.4.21
-- Python >= 3.9 
+- Python >= 3.9
     - (required [eye3D](https://eyed3.readthedocs.io/en/latest/installation.html))
 - npm/Node.js
 - Composer

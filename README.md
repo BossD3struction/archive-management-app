@@ -31,10 +31,10 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
     - Apply changes to .env file:
         - APP_ENV=production
         - APP_DEBUG=false
-    - 'npm install --production'        
+    - 'npm install --production'
     - 'composer install --no-dev'
-    - 'npm run production'    
     - 'php artisan migrate'
+    - 'npm run production'
     - 'composer dump-autoload --optimize'
     - 'php artisan config:cache'
     - 'php artisan route:cache'

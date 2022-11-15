@@ -17,7 +17,7 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
 
 ## Installation
 1. find python install folder location, open Scripts folder, open cmd and run command 'pip install eyeD3'
-2. create database named 'laravel_bachelor_project'
+2. create database named 'archive_management_app'
 3. in project root directory open cmd and run commands (DEVELOPMENT):
     - Apply changes to .env file:
         - APP_ENV=local
@@ -33,7 +33,7 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
         - APP_DEBUG=false
     - 'npm install'
     - 'composer install'
-    - 'php artisan migrate'
+    - 'php artisan migrate --force'
     - 'npm run production'
     - 'php artisan config:cache'
     - 'php artisan route:cache'

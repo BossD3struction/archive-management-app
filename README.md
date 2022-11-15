@@ -32,7 +32,7 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
         - APP_ENV=production
         - APP_DEBUG=false
     - 'npm run production'
-    - 'composer install'
+    - 'composer install --no-dev'
     - 'php artisan migrate'
     - 'composer dump-autoload --optimize'
     - 'php artisan config:cache'

@@ -35,7 +35,6 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
     - 'composer install'
     - 'php artisan migrate'
     - 'npm run production'
-    - 'composer dump-autoload --optimize'
     - 'php artisan config:cache'
     - 'php artisan route:cache'
     - 'php artisan view:cache'

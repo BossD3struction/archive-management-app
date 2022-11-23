@@ -24,17 +24,17 @@
             <div class="mb-3">
                 <label for="title" class="fw-bold">TITLE</label>
                 <input type="text" class="form-control form-control-lg" name="title" id="title"
-                       value="{{ $file->title }}" autocomplete="off">
+                       value="{{ old('title', $file->title) }}" autocomplete="off">
             </div>
             <div class="mb-3">
                 <label for="artist" class="fw-bold">ARTIST</label>
                 <input type="text" class="form-control form-control-lg" name="artist" id="artist"
-                       value="{{ $file->artist }}" autocomplete="off">
+                       value="{{ old('artist', $file->artist) }}" autocomplete="off">
             </div>
             <div class="mb-3">
                 <label for="album" class="fw-bold">ALBUM</label>
                 <input type="text" class="form-control form-control-lg" name="album" id="album"
-                       value="{{ $file->album }}" autocomplete="off">
+                       value="{{ old('album', $file->album) }}" autocomplete="off">
             </div>
             <div class="mb-3">
                 <label for="year" class="fw-bold">YEAR</label>
@@ -45,7 +45,7 @@
                 <label for="genres" class="fw-bold">GENRE</label>
                 <select class="form-select form-select-lg" name="genres" id="genres">
                     @foreach($genres as $genre)
-                        @if($genre === $file->genre)
+                        @if($genre === old('genres', $file->genre))
                             <option selected value="{{ $genre }}">{{ $genre }}</option>
                         @endif
                         @if($genre !== $file->genre)

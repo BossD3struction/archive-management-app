@@ -22,7 +22,6 @@ services:
             - sail
         depends_on:
             - mariadb
-
     mariadb:
         image: 'mariadb:10'
         ports:
@@ -43,7 +42,6 @@ services:
             test: [ "CMD", "mysqladmin", "ping", "-p${DB_PASSWORD}" ]
             retries: 3
             timeout: 5s
-
     phpmyadmin:
         depends_on:
             - mariadb
@@ -54,15 +52,7 @@ services:
         networks:
             - sail
         ports:
-            - "8001:80"
-
-    python:
-        image: python
-        command:
-            - pip
-            - install
-            - eyeD3
-
+            - '8001:80'
 networks:
     sail:
         driver: bridge

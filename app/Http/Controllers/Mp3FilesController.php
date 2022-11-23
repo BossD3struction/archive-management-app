@@ -69,6 +69,7 @@ class Mp3FilesController extends Controller
             "Hard Rock", "Post-Punk", "Folk", "Post-Rock", "Folk-Rock", "Psytrance", "National Folk", "Shoegaze", "Swing", "Space Rock", "Fast Fusion", "Trop Rock", "Bebob", "World Music",
             "Latin", "Neoclassical", "Revival", "Audiobook", "Celtic", "Audio Theatre", "Bluegrass", "Neue Deutsche Welle", "Avantgarde", "Podcast", "Gothic Rock", "Indie Rock", "Progressive Rock",
             "G-Funk", "Psychedelic Rock", "Dubstep", "Symphonic Rock", "Garage Rock", "Slow Rock", "Psybient");
+        sort($genres);
         $file = Mp3File::find($id);
         return view('files.mp3.edit', ['file' => $file, 'genres' => $genres]);
     }

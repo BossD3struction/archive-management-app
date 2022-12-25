@@ -39,7 +39,7 @@
             <div class="mb-3">
                 <label for="year" class="fw-bold">YEAR</label>
                 <input type="number" class="form-control form-control-lg" name="year" id="year" placeholder="YYYY"
-                       value="{{ substr($file->year, 0, 4) }}" autocomplete="off" min="1900" max="{{ date("Y") }}">
+                       value="{{ substr($file->year, 0, 4) }}" autocomplete="off" min="1860" max="{{ date("Y") }}">
             </div>
             <div class="mb-3">
                 <label for="genres" class="fw-bold">GENRE</label>

@@ -4,35 +4,18 @@ namespace App\Http\Controllers;
 
 use App\DataTables\Mp3FilesDataTable;
 use App\Models\Mp3File;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\File;
 use Stormiix\EyeD3\EyeD3;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Mp3FilesController extends Controller
 {
-
-    /**
-     * @param Mp3FilesDataTable $dataTable
-     * @return mixed
-     */
     public function renderMp3FilesTable(Mp3FilesDataTable $dataTable)
     {
         return $dataTable->render('tables.mp3');
     }
 
-    /**
-     * @param $filenamePath
-     * @param $title
-     * @param $artist
-     * @param $album
-     * @param $year
-     * @param $genre
-     * @return void
-     */
     private function updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre)
     {
         $meta = [
@@ -46,12 +29,6 @@ class Mp3FilesController extends Controller
         $eyed3->updateMeta($meta);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Application|Factory|View
-     */
     public function edit(int $id)
     {
         $genres = array("Blues", "Big Band", "Classic Rock", "Chorus", "Country", "Easy Listening", "Dance", "Acoustic", "Disco", "Humour", "Funk",
@@ -74,17 +51,10 @@ class Mp3FilesController extends Controller
         return view('files.mp3.edit', ['file' => $file, 'genres' => $genres]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Application|Redirector|RedirectResponse
-     */
     public function update(Request $request, int $id)
     {
         $request->validate([
-            'year' => 'required|regex:/^[1-9][0-9]*$/|integer|between:1900,' . date("Y")
+            'year' => 'required|regex:/^[1-9][0-9]*$/|integer|between:1860,' . date("Y")
         ]);
 
         $filenamePath = $request->input('filename_path');
@@ -94,26 +64,24 @@ class Mp3FilesController extends Controller
         $year = $request->input('year');
         $genre = $request->input('genres');
 
-        Mp3File::where('id', $id)
-            ->update([
-                'title' => $title ?? '',
-                'artist' => $artist ?? '',
-                'album' => $album ?? '',
-                'year' => $year,
-                'genre' => $genre
-            ]);
+        if (File::exists($filenamePath)) {
+            Mp3File::where('id', $id)
+                ->update([
+                    'title' => $title ?? '',
+                    'artist' => $artist ?? '',
+                    'album' => $album ?? '',
+                    'year' => $year,
+                    'genre' => $genre
+                ]);
 
-        $this->updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre);
-        flash()->addSuccess('file metadata updated successfully');
+            $this->updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre);
+            flash()->addSuccess('file metadata updated successfully');
+        } else {
+            throw new FileNotFoundException($filenamePath);
+        }
         return redirect('/mp3/table');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Application|Redirector|RedirectResponse
-     */
     public function destroy(int $id)
     {
         Mp3File::find($id)->delete();

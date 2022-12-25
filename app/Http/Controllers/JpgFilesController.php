@@ -4,12 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\JpgFilesDataTable;
 use App\Models\JpgFile;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
+use Illuminate\Support\Facades\File;
 use lsolesen\pel\PelEntryWindowsString;
 use lsolesen\pel\PelException;
 use lsolesen\pel\PelIfd;
@@ -17,25 +13,16 @@ use lsolesen\pel\PelInvalidArgumentException;
 use lsolesen\pel\PelInvalidDataException;
 use lsolesen\pel\PelJpeg;
 use lsolesen\pel\PelTag;
+use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class JpgFilesController extends Controller
 {
-
-    /**
-     * @param JpgFilesDataTable $dataTable
-     * @return mixed
-     */
     public function renderJpgFilesTable(JpgFilesDataTable $dataTable)
     {
         return $dataTable->render('tables.jpg');
     }
 
     /**
-     * @param $filenamePath
-     * @param $title
-     * @param $tags
-     * @param $comments
-     * @return void
      * @throws PelException
      * @throws PelInvalidArgumentException
      * @throws PelInvalidDataException
@@ -54,12 +41,6 @@ class JpgFilesController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return Application|Factory|View
-     */
     public function edit(int $id)
     {
         $file = JpgFile::find($id);
@@ -67,11 +48,6 @@ class JpgFilesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param Request $request
-     * @param int $id
-     * @return Application|Redirector|RedirectResponse
      * @throws PelException
      * @throws PelInvalidArgumentException
      * @throws PelInvalidDataException
@@ -83,24 +59,22 @@ class JpgFilesController extends Controller
         $tags = $request->input('tags');
         $comments = $request->input('comments');
 
-        JpgFile::where('id', $id)
-            ->update([
-                'title' => $title ?? '',
-                'tags' => $tags ?? '',
-                'comments' => $comments ?? ''
-            ]);
+        if (File::exists($filenamePath)) {
+            JpgFile::where('id', $id)
+                ->update([
+                    'title' => $title ?? '',
+                    'tags' => $tags ?? '',
+                    'comments' => $comments ?? ''
+                ]);
 
-        $this->updateJpgMetadata($filenamePath, $title, $tags, $comments);
-        flash()->addSuccess('file metadata updated successfully');
+            $this->updateJpgMetadata($filenamePath, $title, $tags, $comments);
+            flash()->addSuccess('file metadata updated successfully');
+        } else {
+            throw new FileNotFoundException($filenamePath);
+        }
         return redirect('/jpg/table');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return Application|RedirectResponse|Redirector
-     */
     public function destroy(int $id)
     {
         JpgFile::find($id)->delete();
@@ -109,9 +83,6 @@ class JpgFilesController extends Controller
     }
 
     /**
-     * @param PelIfd|null $ifd0
-     * @param $xp_title
-     * @return void
      * @throws PelException
      * @throws PelInvalidDataException
      */
@@ -126,9 +97,6 @@ class JpgFilesController extends Controller
     }
 
     /**
-     * @param PelIfd|null $ifd0
-     * @param $xp_keywords
-     * @return void
      * @throws PelException
      * @throws PelInvalidDataException
      */
@@ -143,9 +111,6 @@ class JpgFilesController extends Controller
     }
 
     /**
-     * @param PelIfd|null $ifd0
-     * @param $xp_comment
-     * @return void
      * @throws PelException
      * @throws PelInvalidDataException
      */

@@ -6,12 +6,7 @@ use App\Models\JpgFile;
 use App\Models\Mp3File;
 use Exception;
 use getID3;
-use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Contracts\View\Factory;
-use Illuminate\Contracts\View\View;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Redirector;
 use lsolesen\pel\PelException;
 use lsolesen\pel\PelIfd;
 use lsolesen\pel\PelJpeg;
@@ -20,10 +15,6 @@ use Symfony\Component\Finder\Finder;
 
 class FilesController extends Controller
 {
-    /**
-     * @param Request $request
-     * @return Application|Factory|View|RedirectResponse
-     */
     public function findAllSpecifiedFilesInDirectory(Request $request)
     {
         ini_set('max_execution_time', 60);
@@ -47,8 +38,6 @@ class FilesController extends Controller
     }
 
     /**
-     * @param Request $request
-     * @return Application|RedirectResponse|Redirector
      * @throws PelException
      */
     public function uploadFoundFilesIntoDatabase(Request $request)
@@ -108,11 +97,6 @@ class FilesController extends Controller
         return redirect('/files');
     }
 
-    /**
-     * @param $fileMetadata
-     * @param $pelJpeg
-     * @return array
-     */
     private function getJpgFileMetadataValues($fileMetadata, $pelJpeg)
     {
         $exif = $pelJpeg->getExif();
@@ -137,10 +121,6 @@ class FilesController extends Controller
         return array($xpTitle, $xpKeyword, $xpComment, $dateTimeOriginal, $hasExifMetadata);
     }
 
-    /**
-     * @param PelIfd|null $ifd0
-     * @return mixed|string
-     */
     private function getXpTitleValue(?PelIfd $ifd0)
     {
         $entry = $ifd0->getEntry(PelTag::XP_TITLE);
@@ -151,10 +131,6 @@ class FilesController extends Controller
         }
     }
 
-    /**
-     * @param PelIfd|null $ifd0
-     * @return mixed|string
-     */
     private function getXpKeywordValue(?PelIfd $ifd0)
     {
         $entry = $ifd0->getEntry(PelTag::XP_KEYWORDS);
@@ -165,10 +141,6 @@ class FilesController extends Controller
         }
     }
 
-    /**
-     * @param PelIfd|null $ifd0
-     * @return mixed|string
-     */
     private function getXpCommentValue(?PelIfd $ifd0)
     {
         $entry = $ifd0->getEntry(PelTag::XP_COMMENT);
@@ -179,9 +151,6 @@ class FilesController extends Controller
         }
     }
 
-    /**
-     * @return Application|Factory|View
-     */
     public function routeToFilesIndexPage()
     {
         return view('files.index');

@@ -11,12 +11,6 @@ use Yajra\DataTables\Services\DataTable;
 
 class Mp3FilesDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return DataTableAbstract
-     */
     public function dataTable($query): DataTableAbstract
     {
         return datatables()
@@ -34,22 +28,11 @@ class Mp3FilesDataTable extends DataTable
             ->rawColumns(['available', 'action']);
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param Mp3File $model
-     * @return Builder
-     */
     public function query(Mp3File $model): Builder
     {
         return $model->newQuery();
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
     public function html(): \Yajra\DataTables\Html\Builder
     {
         return $this->builder()
@@ -61,11 +44,6 @@ class Mp3FilesDataTable extends DataTable
             ->orderBy(1, 'asc');
     }
 
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
     protected function getColumns(): array
     {
         return [
@@ -84,11 +62,6 @@ class Mp3FilesDataTable extends DataTable
         ];
     }
 
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
     protected function filename(): string
     {
         return 'Mp3File_' . date('YmdHis');

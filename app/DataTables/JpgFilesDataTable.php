@@ -11,12 +11,6 @@ use Yajra\DataTables\Services\DataTable;
 
 class JpgFilesDataTable extends DataTable
 {
-    /**
-     * Build DataTable class.
-     *
-     * @param mixed $query Results from query() method.
-     * @return DataTableAbstract
-     */
     public function dataTable($query): DataTableAbstract
     {
         return datatables()
@@ -34,22 +28,11 @@ class JpgFilesDataTable extends DataTable
             ->rawColumns(['available', 'action']);
     }
 
-    /**
-     * Get query source of dataTable.
-     *
-     * @param JpgFile $model
-     * @return Builder
-     */
     public function query(JpgFile $model): Builder
     {
         return $model->newQuery();
     }
 
-    /**
-     * Optional method if you want to use html builder.
-     *
-     * @return \Yajra\DataTables\Html\Builder
-     */
     public function html(): \Yajra\DataTables\Html\Builder
     {
         return $this->builder()
@@ -61,11 +44,6 @@ class JpgFilesDataTable extends DataTable
             ->orderBy(1, 'asc');
     }
 
-    /**
-     * Get columns.
-     *
-     * @return array
-     */
     protected function getColumns(): array
     {
         return [
@@ -83,11 +61,6 @@ class JpgFilesDataTable extends DataTable
         ];
     }
 
-    /**
-     * Get filename for export.
-     *
-     * @return string
-     */
     protected function filename(): string
     {
         return 'JpgFiles_' . date('YmdHis');

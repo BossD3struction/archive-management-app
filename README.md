@@ -38,3 +38,10 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
     - 'php artisan route:cache'
     - 'php artisan view:cache'
     - 'php artisan serve'
+
+## Installation using Docker
+1. copy values from 'docker.env' into '.env'
+2. 'docker.env' is located in '.env configs' folder
+3. '.env' is located in project root directory
+4. in project root directory open cmd and run command
+   - 'bash ./vendor/bin/sail up'

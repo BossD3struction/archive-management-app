@@ -49,6 +49,23 @@ class FilesController extends Controller
         $recordsCount += JpgFile::count();
         $newUploadsCount = 0;
 
+        $newUploadsCount = $this->uploadFilesAndGetNewUploadsCount($foundFiles, $newUploadsCount);
+
+        $recordsCount === 1 ?
+            $request->session()->flash('info', $recordsCount . ' file in database') :
+            $request->session()->flash('info', $recordsCount . ' files in database');
+        $newUploadsCount === 1 ?
+            $request->session()->flash('success', $newUploadsCount . ' file uploaded into database') :
+            $request->session()->flash('success', $newUploadsCount . ' files uploaded into database');
+
+        return redirect('/files');
+    }
+
+    /**
+     * @throws PelException
+     */
+    public function uploadFilesAndGetNewUploadsCount($foundFiles, int $newUploadsCount): int
+    {
         foreach ($foundFiles as $filenamePath) {
             $getID3 = new getID3;
             $pelJpeg = new PelJpeg;
@@ -86,15 +103,7 @@ class FilesController extends Controller
                 }
             }
         }
-
-        $recordsCount === 1 ?
-            $request->session()->flash('info', $recordsCount . ' file in database') :
-            $request->session()->flash('info', $recordsCount . ' files in database');
-        $newUploadsCount === 1 ?
-            $request->session()->flash('success', $newUploadsCount . ' file uploaded into database') :
-            $request->session()->flash('success', $newUploadsCount . ' files uploaded into database');
-
-        return redirect('/files');
+        return $newUploadsCount;
     }
 
     private function getJpgFileMetadataValues($fileMetadata, $pelJpeg)

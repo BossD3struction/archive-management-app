@@ -8,7 +8,6 @@
             <div class="input-group input-group-lg">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
                 <input type="text" class="form-control" aria-label="Directory" placeholder="Enter directory path"
-                       value="D:\tmp_media_files_for_bachelor_project\"
                        name="directory" id="directory" autocomplete="off">
                 <button class="btn btn-primary w-25" onclick="showAlert()" type="submit">
                     Search

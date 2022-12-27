@@ -17,9 +17,6 @@ class FilesController extends Controller
 {
     public function findAllSpecifiedFilesInDirectory(Request $request)
     {
-        //TODO clean these comments
-        //ini_set('max_execution_time', 60);
-        //ini_set('memory_limit', '4096M');
         $request->validate(['directory' => 'required']);
         $directory = $request->input('directory');
 
@@ -27,6 +24,7 @@ class FilesController extends Controller
             $foundFiles = Finder::create()
                 ->in($directory)
                 ->ignoreUnreadableDirs()
+                ->exclude('@eaDir')
                 ->name(['*.jpg', '*.mp3']);
         } catch (Exception $e) {
             return back()->withErrors($e->getMessage());
@@ -43,9 +41,6 @@ class FilesController extends Controller
      */
     public function uploadFoundFilesIntoDatabase(Request $request)
     {
-        //TODO clean these comments
-        //ini_set('max_execution_time', 120);
-        //ini_set('memory_limit', '4096M');
         $foundFiles = $request->input('found_files');
         $recordsCount = Mp3File::count();
         $recordsCount += JpgFile::count();

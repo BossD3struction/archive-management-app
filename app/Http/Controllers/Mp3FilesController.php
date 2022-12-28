@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\Mp3FilesDataTable;
 use App\Models\Mp3File;
+use getID3;
+use getid3_writetags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Stormiix\EyeD3\EyeD3;
@@ -18,15 +20,24 @@ class Mp3FilesController extends Controller
 
     private function updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre)
     {
-        $meta = [
-            "title" => $title ?? '',
-            "artist" => $artist ?? '',
-            "album" => $album ?? '',
-            "year" => $year,
-            "genre" => $genre
-        ];
-        $eyed3 = new EyeD3($filenamePath);
-        $eyed3->updateMeta($meta);
+        $getID3 = new getID3;
+        $tagWriter = new getid3_writetags;
+        $tagWriter->filename = $filenamePath;
+        $tagWriter->tagformats = array('id3v2.4');
+        $tagWriter->overwrite_tags = true;
+        $tagWriter->remove_other_tags = true;
+        $tagWriter->tag_encoding = 'UTF-8';
+
+        $TagData = array(
+            'title' => array($title ?? ''),
+            'artist' => array($artist ?? ''),
+            'album' => array($album ?? ''),
+            'year' => array($year),
+            'genre' => array($genre)
+        );
+
+        $tagWriter->tag_data = $TagData;
+        $tagWriter->WriteTags();
     }
 
     public function edit(int $id)

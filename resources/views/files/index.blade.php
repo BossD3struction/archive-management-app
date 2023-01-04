@@ -2,8 +2,7 @@
 
 @section('content')
     <div class="container position-relative custom-min-height">
-        <h1>Files page</h1>
-        <form action="/found/files" method="POST" autocomplete="on">
+        <form class="homepage-form" action="/found/files" method="POST" autocomplete="on">
             @csrf
             <div class="input-group input-group-lg">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>

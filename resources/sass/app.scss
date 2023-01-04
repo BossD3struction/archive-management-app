@@ -23,3 +23,21 @@ div.found-files-list {
     overflow-x: auto;
 }
 
+form.homepage-form {
+    margin-top: 51px;
+}
+
+div.dataTables_wrapper div.dataTables_filter label {
+    font-size: 20px;
+    background-color: #ffccb3;
+    border-radius: 10px;
+    padding: 10px;
+    display: block;
+    text-align: center;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    width: 80%;
+    font-size: 20px;
+}
+

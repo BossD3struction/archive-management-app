@@ -15,7 +15,8 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
 
 ## Installation
 1. create database named 'archive_management_app'
-2. in project root directory open cmd and run commands (DEVELOPMENT):
+2. if needed change database connection values in .env file
+3. in project root directory open cmd and run commands (DEVELOPMENT):
     - Apply changes to .env file:
         - APP_ENV=local
         - APP_DEBUG=true
@@ -23,7 +24,7 @@ vyžádání uživatele upravená metadata zapíše zpětně do souborů.
     - 'composer install'
     - 'php artisan migrate'
     - 'npm run dev'
-3. in project root directory open cmd and run commands (PRODUCTION):
+4. in project root directory open cmd and run commands (PRODUCTION):
     - Apply changes to .env file:
         - APP_ENV=production
         - APP_DEBUG=false

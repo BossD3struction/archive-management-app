@@ -8,7 +8,6 @@ use getID3;
 use getid3_writetags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
-use Stormiix\EyeD3\EyeD3;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Mp3FilesController extends Controller

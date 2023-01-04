@@ -8,6 +8,7 @@ use getID3;
 use getid3_writetags;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Stormiix\EyeD3\EyeD3;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class Mp3FilesController extends Controller
@@ -15,6 +16,19 @@ class Mp3FilesController extends Controller
     public function renderMp3FilesTable(Mp3FilesDataTable $dataTable)
     {
         return $dataTable->render('tables.mp3');
+    }
+
+    private function updateMp3MetaDataWithPythonEyeD3($filenamePath, $title, $artist, $album, $year, $genre)
+    {
+        $meta = [
+            "title" => $title ?? '',
+            "artist" => $artist ?? '',
+            "album" => $album ?? '',
+            "year" => $year,
+            "genre" => $genre
+        ];
+        $eyed3 = new EyeD3($filenamePath);
+        $eyed3->updateMeta($meta);
     }
 
     private function updateMp3MetaData($filenamePath, $title, $artist, $album, $year, $genre)

@@ -64,17 +64,18 @@
                 </div>
             @endif
             @if(File::exists($file->filename_path))
-                <button class="btn btn-primary btn-lg w-50" type="submit">Update</button>
+                <button class="btn btn-primary btn-lg w-50" type="submit">UPDATE</button>
             @endif
             @if(File::missing($file->filename_path))
-                <button class="btn btn-primary btn-lg w-50" type="submit" disabled>Update</button>
+                <button class="btn btn-primary btn-lg w-50" type="submit" disabled>UPDATE</button>
             @endif
         </form>
         <form action="/files/mp3/{{ $file->id }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger btn-lg w-50 mt-3">
-                Delete
+            <button type="submit" class="btn btn-danger btn-lg w-50 mt-3"
+                    onclick="return confirm('Do you want to remove a file record?')">
+                REMOVE file record
             </button>
         </form>
     </div>

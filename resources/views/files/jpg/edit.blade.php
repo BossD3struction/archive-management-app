@@ -29,7 +29,8 @@
             <div class="mb-3">
                 <label for="tags" class="fw-bold">TAGS</label>
                 <input type="text" class="form-control form-control-lg" name="tags" id="tags"
-                       value="{{ $file->tags }}" placeholder="tag;tag;tag;" autocomplete="off" pattern="^([a-zA-Z0-9]+[;])*$">
+                       value="{{ $file->tags }}" placeholder="tag;tag;tag;" autocomplete="off"
+                       pattern="^([a-zA-Z0-9]+[;])*$">
                 <div class="form-text">Pattern: tag;tag;tag;</div>
             </div>
             <div class="mb-3">
@@ -52,17 +53,18 @@
                 </div>
             @endif
             @if(File::exists($file->filename_path) && $file->has_exif_metadata)
-                <button class="btn btn-primary btn-lg w-50" type="submit">Update</button>
+                <button class="btn btn-primary btn-lg w-50" type="submit">UPDATE</button>
             @endif
             @if(File::missing($file->filename_path) || !$file->has_exif_metadata)
-                <button class="btn btn-primary btn-lg w-50" type="submit" disabled>Update</button>
+                <button class="btn btn-primary btn-lg w-50" type="submit" disabled>UPDATE</button>
             @endif
         </form>
         <form action="/files/jpg/{{ $file->id }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger btn-lg w-50 mt-3">
-                Delete
+            <button type="submit" class="btn btn-danger btn-lg w-50 mt-3"
+                    onclick="return confirm('Do you want to remove a file record?')">
+                REMOVE file record
             </button>
         </form>
     </div>

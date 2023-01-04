@@ -3,7 +3,7 @@
 @section('content')
     <div id="change-max-height" class="container position-relative custom-min-height">
         @if($isEmpty)
-            <h1>Found files page</h1>
+            <h1>Found files</h1>
             <div class="alert alert-danger text-center mt-1">
                 <span>No JPG/MP3 files in given directory path found</span>
             </div>
@@ -11,7 +11,7 @@
         @if(!$isEmpty)
             <form action="/upload/files" method="POST">
                 @csrf
-                <h1 id="hide-page-title">Found files page</h1>
+                <h1 id="hide-page-title">Found files</h1>
                 <div id="hide-found-files-list" class="found-files-list">
                     <ul class="list-group">
                         @foreach($foundFiles as $foundFile)

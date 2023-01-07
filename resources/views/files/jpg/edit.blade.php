@@ -7,7 +7,7 @@
         </div>
     </div>
 
-    <div class="form-group text-center mx-auto w-50 mb-3">
+    <div class="form-group text-center mx-auto w-75 mb-3">
         <form action="/files/jpg/{{ $file->id }}" method="POST">
             @csrf
             @method('PUT')
@@ -53,16 +53,16 @@
                 </div>
             @endif
             @if(File::exists($file->filename_path) && $file->has_exif_metadata)
-                <button class="btn btn-primary btn-lg w-50" type="submit">UPDATE</button>
+                <button class="btn btn-primary btn-lg w-25 mb-3 float-start" type="submit">UPDATE</button>
             @endif
             @if(File::missing($file->filename_path) || !$file->has_exif_metadata)
-                <button class="btn btn-primary btn-lg w-50" type="submit" disabled>UPDATE</button>
+                <button class="btn btn-primary btn-lg w-25 mb-3 float-start" type="submit" disabled>UPDATE</button>
             @endif
         </form>
         <form action="/files/jpg/{{ $file->id }}" method="POST">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-danger btn-lg w-50 mt-3"
+            <button type="submit" class="btn btn-danger btn-lg w-25 mb-3 float-end"
                     onclick="return confirm('Do you want to remove a file record?')">
                 REMOVE file record
             </button>

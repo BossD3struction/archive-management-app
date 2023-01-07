@@ -23,7 +23,7 @@
                 <div class="input-group justify-content-center">
                     <button id="hide-submit-button" class="btn btn-lg btn-primary w-25 mt-3" onclick="showAlert()"
                             type="submit">
-                        Upload
+                        SAVE to the database
                     </button>
                 </div>
             </form>
